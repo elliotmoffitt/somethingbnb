@@ -1,37 +1,41 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-// import './App.css'
+import { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom';
+import Navigation from './components/Navigation';
+import * as sessionActions from './store/session';
 
-function App() {
-  const [count, setCount] = useState(0)
-  const [spots, setSpots] = useState([]);
-
-  const getSpots = async () => {
-    try {
-      const res = await fetch('http://localhost:8000/api/spots');
-      const spotData = await res.json();
-      setSpots(spotData.Spots);
-    }
-    catch (e) {
-      console.log(e);
-      return [];
-    }
-  }
+function Layout() {
+  const dispatch = useDispatch();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    getSpots();
-  }, [])
+    dispatch(sessionActions.restoreUser()).then(() => {
+      setIsLoaded(true)
+    });
+  }, [dispatch]);
 
-  console.log(spots)
   return (
     <>
-      {spots.length ? spots.map(spot => {
-        // console.log(spot.name)
-        return <h1>{spot.name}</h1>
-      }): ''}
+      <Navigation isLoaded={isLoaded} />
+      {isLoaded && <Outlet />}
     </>
-  )
+  );
 }
 
-export default App
+const router = createBrowserRouter([
+  {
+    element: <Layout />,
+    children: [
+      {
+        path: '/',
+        element: <h1>Welcome!</h1>
+      }
+    ]
+  }
+]);
+
+function App() {
+  return <RouterProvider router={router} />;
+}
+
+export default App;
