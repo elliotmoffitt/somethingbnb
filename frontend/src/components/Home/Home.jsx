@@ -1,12 +1,7 @@
-import './Home.css'
-import somethingbnb from '../../assets/somethingbnb.png'
+import './Home.css';
 
 const Home = () => {
-    return (
-        <>
-            <img src={somethingbnb} alt="somethingbnb"/>
-        </>
-    )
+    return
 }
 
 export default Home;
