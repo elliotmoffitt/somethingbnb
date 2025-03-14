@@ -4,17 +4,16 @@ import { loadSpots } from '../../store/spotReducer';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSpots } from '../../store/spotReducer';
+import Spot from '../Spot';
 
 const Spots = () => {
     const dispatch = useDispatch();
-    const spots = useSelector(state => state)
+    const spots = useSelector(state => state.spotState.entries)
     const [isLoaded, setIsLoaded] = useState(false);
-    const [testSpots, setTestSpots] = useState([]);
 
     useEffect(() => {
-        dispatch(fetchSpots()).then(() => {
-            setTestSpots(true)
-        });
+        dispatch(fetchSpots())
+        setIsLoaded(true)
     }, [dispatch]);
     // console.log(spots,)
     // const [spots, setSpots] = useState([]);
@@ -36,11 +35,15 @@ const Spots = () => {
     // }, [])
 
     return (
-        <>
-        {/* {spots.map(spot => {
-            return spot.name
-        })} */}
-        </>
+        <div className='spots'>
+        {isLoaded && spots.map((spot, i) => {
+            return (
+            <div key={`${i}-${spot.name}`}>
+                <Spot spot={spot}/>
+            </div>
+            )
+        })}
+        </div>
     )
 }
 
