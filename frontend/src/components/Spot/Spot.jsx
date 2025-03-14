@@ -5,7 +5,7 @@ const Spot = ({spot}) => {
     // console.log(spot.previewImage, spot.name)
     console.log(spot)
     return (
-        <NavLink to={`/api/spots/${spot.id}`}>
+        <NavLink to={`/spots/${spot.id}`}>
         <button id='spot'>
             <div id='spot-img'>
                 {spot.previewImage ? <img src={spot.previewImage} alt={spot.name}/>:
