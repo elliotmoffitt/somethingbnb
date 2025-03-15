@@ -36,13 +36,13 @@ const Spots = () => {
 
     return (
         <div className='spots'>
-        {isLoaded && spots.map((spot, i) => {
+        {spots.length ? spots.map((spot, i) => {
             return (
             <div key={`${i}-${spot.name}`}>
                 <Spot spot={spot}/>
             </div>
             )
-        })}
+        }) : ""}
         </div>
     )
 }
