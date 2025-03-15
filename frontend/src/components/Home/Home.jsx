@@ -1,7 +1,7 @@
-import './Home.css'
+import './Home.css';
 
 const Home = () => {
-    return;
+    return
 }
 
 export default Home;
