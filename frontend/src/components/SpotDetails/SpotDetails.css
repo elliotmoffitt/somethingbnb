@@ -1,3 +1,14 @@
 #spot-details {
+    display: flex;
     max-width: 1000px;
 }
+
+#spot-details-details {
+    width: 50%;
+}
+
+#spot-details-reviews {
+    width: 50%;
+}
+
+#spot-details-name-description {}
