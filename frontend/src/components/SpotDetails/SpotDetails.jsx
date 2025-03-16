@@ -20,7 +20,15 @@ const SpotDetails = () => {
     // console.log(spot.previewImage, spot.name)
     console.log(spotDetails)
     return (
-        <h1>{isLoaded && spotDetails.name}</h1>
+        <div id="spot-details">
+            <h1>{spotDetails.name}</h1>
+            <h3>{spotDetails.city}, {spotDetails.state}, {spotDetails.country}</h3>
+            {spotDetails.SpotImages ? spotDetails.SpotImages.map((image, i) => (
+                <div>
+                <img src={image.url}/>
+                </div>
+            )) : ""}
+        </div>
     );
 }
 

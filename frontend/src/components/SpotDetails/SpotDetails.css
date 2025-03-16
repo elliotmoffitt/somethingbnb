@@ -1,26 +1,3 @@
-#spot {
-    height: 250px;
-    width: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    /* align-items: center; */
-    border: 1px solid black
-}
-
-#spot-img {
-    height: 250px;
-    width: 250px;
-    /* background-color: red; */
-    object-fit:contain;
-
-}
-
-#spot-info {
-    display: flex;
-    justify-content: space-between;
-}
-
-#spot-name-desc-price {
-
+#spot-details {
+    max-width: 1000px;
 }
