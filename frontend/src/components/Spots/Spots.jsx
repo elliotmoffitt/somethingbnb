@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import './Spots.css'
-import { loadSpots } from '../../store/spotReducer';
-import { useSearchParams } from 'react-router-dom';
+// import { loadSpots } from '../../store/spotReducer';
+// import { useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSpots } from '../../store/spotReducer';
 import Spot from '../Spot';
@@ -9,11 +9,11 @@ import Spot from '../Spot';
 const Spots = () => {
     const dispatch = useDispatch();
     const spots = useSelector(state => state.spotState.entries)
-    const [isLoaded, setIsLoaded] = useState(false);
+    // const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
         dispatch(fetchSpots())
-        setIsLoaded(true)
+        // setIsLoaded(true)
     }, [dispatch]);
     // console.log(spots,)
     // const [spots, setSpots] = useState([]);
