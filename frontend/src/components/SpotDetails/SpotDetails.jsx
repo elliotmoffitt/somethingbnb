@@ -25,11 +25,23 @@ const SpotDetails = () => {
                         <h1>{spotDetails.name}</h1>
                         <h3>{spotDetails.city}, {spotDetails.state}, {spotDetails.country}</h3>
                         <div id='all-images-container'>
-                        {spotDetails.SpotImages ? spotDetails.SpotImages.map((image, i) => (
+                            <div id='first-image-container'>
+                                <img src={spotDetails.SpotImages ? spotDetails.SpotImages[0].url : ''} id='first-image' />
+                            </div>
+                            <div>
+                                <div id='images-container'>
+                                    {spotDetails.SpotImages ? spotDetails.SpotImages.map((image, i) => (
+                                        <div key={`${i}-${image.id}`}>
+                                            {i !== 0 && <img src={image.url} className='images' />}
+                                        </div>
+                                    )) : ''}
+                                </div>
+                            </div>
+                            {/* {spotDetails.SpotImages ? spotDetails.SpotImages.map((image, i) => (
                                 <div key={`${i}-${image.id}`} className={i === 0 ? 'first-image-container' : 'images-container'}>
                                     <img src={image.url} className={i === 0 ? 'first-image' : 'images'} />
                                 </div>
-                        )) : ''}
+                        )) : ''} */}
                         </div>
 
                         <div id='name-description-reserve'>
