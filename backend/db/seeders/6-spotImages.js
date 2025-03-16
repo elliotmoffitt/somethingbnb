@@ -17,6 +17,36 @@ module.exports = {
           preview: true,
         },
         {
+          spotId: 1,
+          url: "https://www.stockvault.net/data/2023/04/20/298977/preview16.jpg",
+          preview: true,
+        },
+        {
+          spotId: 1,
+          url: "https://www.stockvault.net/data/2023/04/20/298977/preview16.jpg",
+          preview: true,
+        },
+        {
+          spotId: 1,
+          url: "https://www.stockvault.net/data/2023/04/20/298977/preview16.jpg",
+          preview: true,
+        },
+        {
+          spotId: 2,
+          url: "https://www.stockvault.net/data/2012/12/24/139306/preview16.jpg",
+          preview: false,
+        },
+        {
+          spotId: 2,
+          url: "https://www.stockvault.net/data/2012/12/24/139306/preview16.jpg",
+          preview: false,
+        },
+        {
+          spotId: 2,
+          url: "https://www.stockvault.net/data/2012/12/24/139306/preview16.jpg",
+          preview: false,
+        },
+        {
           spotId: 2,
           url: "https://www.stockvault.net/data/2012/12/24/139306/preview16.jpg",
           preview: false,
@@ -26,6 +56,21 @@ module.exports = {
           url: "https://www.stockvault.net/data/2018/12/10/257212/preview16.jpg",
           preview: true,
         },
+        {
+          spotId: 3,
+          url: "https://www.stockvault.net/data/2018/12/10/257212/preview16.jpg",
+          preview: true,
+        },
+        {
+          spotId: 3,
+          url: "https://www.stockvault.net/data/2018/12/10/257212/preview16.jpg",
+          preview: true,
+        },
+        {
+          spotId: 3,
+          url: "https://www.stockvault.net/data/2018/12/10/257212/preview16.jpg",
+          preview: true,
+        }
       ],
       { validate: true }
     );

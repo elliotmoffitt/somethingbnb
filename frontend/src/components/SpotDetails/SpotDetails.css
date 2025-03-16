@@ -40,3 +40,34 @@
     align-items: center;
     gap: 10px;
 }
+
+#all-images-container {
+    display: flex;
+    max-width: 600px;
+    max-height: 500px;
+}
+
+.first-image-container {
+    max-width: 610px;
+}
+
+.first-image {
+    width: 600px;
+    height: 500px;
+    object-fit: none;
+    padding-right: 10px;
+}
+
+.images {
+    width: 300px;
+    height: 200px;
+    object-fit: none;
+}
+
+.images-container {
+    max-width: 600px;
+    padding-top: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px
+}
