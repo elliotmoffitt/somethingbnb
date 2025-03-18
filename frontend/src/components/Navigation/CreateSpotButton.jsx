@@ -3,11 +3,20 @@ import { useDispatch } from 'react-redux';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import './CreateSpotButton.css';
 import CreateSpotModal from '../CreateSpotModal';
+import { useModal } from '../../context/Modal';
 
 const CreateSpotButton = () => {
-      const dispatch = useDispatch();
-      const [showMenu, setShowMenu] = useState(false);
-      const ulRef = useRef();
+  const dispatch = useDispatch();
+  const [showMenu, setShowMenu] = useState(false);
+  const ulRef = useRef();
+
+  const { setModalContent, setOnModalClose } = useModal();
+
+  const onClick = () => {
+    // if (onModalClose) setOnModalClose(onModalClose);
+    setModalContent(<CreateSpotModal/>);
+    // if (typeof onItemClick === "function") onItemClick();
+  };
 
       const toggleMenu = (e) => {
         e.stopPropagation();
@@ -34,15 +43,10 @@ const CreateSpotButton = () => {
 
     return (
         <>
-        <button id="create-button" onClick={toggleMenu}>
+          <button id="create-button" onClick={onClick}>
             Create a New Spot
 
         </button>
-                    <OpenModalMenuItem
-                    itemText="Log In"
-                    onItemClick={closeMenu}
-                    modalComponent={<CreateSpotModal />}
-                  />
                   </>
     )
 }
