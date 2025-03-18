@@ -35,7 +35,8 @@ const Spots = () => {
     // }, [])
 
     return (
-        <div className='spots'>
+        <div id='landing-page'>
+        <div id='spots'>
         {spots.length ? spots.map((spot, i) => {
             return (
             <div key={`${i}-${spot.name}`}>
@@ -43,6 +44,7 @@ const Spots = () => {
             </div>
             )
         }) : ""}
+        </div>
         </div>
     )
 }

@@ -18,15 +18,14 @@ export const loadSpotDetails = (spotDetails) => {
 };
 
 export const fetchSpots = () => async (dispatch) => {
-  const response = await csrfFetch("http://localhost:8000/api/spots");
+  const response = await csrfFetch("/api/spots");
   const spots = await response.json();
-  console.log(spots, "<-- SPOTSSSSSS");
   dispatch(loadSpots(spots));
 };
 
 export const fetchSpotDetails = (spotId) => async (dispatch) => {
   if (spotId) {
-    const response = await csrfFetch(`http://localhost:8000/api/spots/${spotId}`);
+    const response = await csrfFetch(`/api/spots/${spotId}`);
     const spotDetails = await response.json();
     dispatch(loadSpotDetails(spotDetails));
   }
