@@ -14,7 +14,7 @@ const CreateSpotButton = () => {
 
   const onClick = () => {
     // if (onModalClose) setOnModalClose(onModalClose);
-    setModalContent(<CreateSpotModal/>);
+    setModalContent(<CreateSpotModal setOnModalClose={setOnModalClose}/>);
     // if (typeof onItemClick === "function") onItemClick();
   };
 
