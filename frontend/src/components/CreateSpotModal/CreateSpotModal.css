@@ -31,3 +31,7 @@ form {
     height: 50px;
     width: 400px
 }
+
+.required-text {
+    color: red
+}
