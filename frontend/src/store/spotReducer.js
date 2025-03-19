@@ -26,7 +26,7 @@ export const setSpot = (spot) => {
 };
 
 export const fetchSpots = () => async (dispatch) => {
-  const response = await csrfFetch("/api/spots");
+  const response = await csrfFetch("/api/spots/");
   const spots = await response.json();
   dispatch(loadSpots(spots));
 };
@@ -39,9 +39,30 @@ export const fetchSpotDetails = (spotId) => async (dispatch) => {
   }
 };
 
+export const addImages = (spotImages, spotId) => async (dispatch) => {
+  console.log(spotImages, "SPOTIMAGESSSSSS");
+  const response = await csrfFetch(`/api/spots/${spotId}/images/`, {
+    method: 'POST',
+    body: JSON.stringify({
+      
+    })
+  });
+};
+
 export const createSpot = (spot) => async (dispatch) => {
-  const { address, city, country, description, name, price, state, lat, lng } = spot;
-  const response = await csrfFetch("/api/spots", {
+  const {
+    spotImages,
+    address,
+    city,
+    country,
+    description,
+    name,
+    price,
+    state,
+    lat,
+    lng,
+  } = spot;
+  const response = await csrfFetch("/api/spots/", {
     method: "POST",
     body: JSON.stringify({
       address,
@@ -57,6 +78,7 @@ export const createSpot = (spot) => async (dispatch) => {
   });
   const data = await response.json();
   dispatch(setSpot(data.spot));
+  dispatch(addImages(spotImages, data.id));
   return response;
 };
 
