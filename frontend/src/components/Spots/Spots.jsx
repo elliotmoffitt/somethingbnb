@@ -1,26 +1,35 @@
 import { useEffect, useState } from 'react';
 import './Spots.css'
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSpots } from '../../store/spotReducer';
+import {  getSpotsThunk } from '../../store/spotsReducer';
 import Spot from '../Spot';
 import UpdateSpot from '../UpdateSpot';
 import DeleteSpot from '../DeleteSpot';
 
 const Spots = () => {
     const dispatch = useDispatch();
-    const spots = useSelector(state => state.spotState.entries)
+    const spots = useSelector(state => state.spotsStore.entries)
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        dispatch(fetchSpots())
+        dispatch(getSpotsThunk())
         setIsLoaded(true)
     }, [dispatch]);
+
+    // useEffect(() => {
+    //     const getSpots = async () => {
+    //         dispatch(getSpotsThunk())
+    //     }
+    //     if (!isLoaded) {
+    //         getSpots();
+    //     }
+    // }, [isLoaded])
 
     if (isLoaded) {
         return (
             <div id='landing-page'>
                 <div id='spots'>
-                    {spots.length ? spots.map((spot, i) => {
+                    {spots && spots.length ? spots.map((spot, i) => {
                         return (
                             <div key={`${i}-${spot.name}`}>
                                 <Spot spot={spot} />

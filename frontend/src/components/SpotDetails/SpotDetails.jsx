@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import './SpotDetails.css'
-import { fetchSpotDetails } from '../../store/spotReducer';
+import { fetchSpotDetails } from '../../store/spotsReducer';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 const SpotDetails = () => {
     const dispatch = useDispatch();
-    const spotDetails = useSelector(state => state.spotState.entries)
+    const spotDetails = useSelector(state => state.spotsStore.entries)
     const [isLoaded, setIsLoaded] = useState(false);
 
     const params = useParams()

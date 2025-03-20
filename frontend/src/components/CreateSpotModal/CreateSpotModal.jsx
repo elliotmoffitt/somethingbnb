@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import './CreateSpotModal.css';
-import * as spotReducer from '../../store/spotReducer';
+import * as spotReducer from '../../store/spotsReducer';
 
 const CreateSpotModal = () => {
     const dispatch = useDispatch();

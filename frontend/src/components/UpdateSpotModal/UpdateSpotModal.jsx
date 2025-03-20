@@ -2,7 +2,7 @@ import './UpdateSpotModal.css';
 
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import * as spotReducer from '../../store/spotReducer';
+import * as spotReducer from '../../store/spotsReducer';
 
 const UpdateSpotModal = ({spot}) => {
     const dispatch = useDispatch();

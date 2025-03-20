@@ -1,6 +1,6 @@
 import './DeleteSpotModal.css';
 import { useDispatch } from 'react-redux';
-import { deleteSpot } from '../../store/spotReducer';
+import { deleteSpot } from '../../store/spotsReducer';
 
 const DeleteSpotModal = ({closeModal, spot}) => {
 const dispatch = useDispatch();

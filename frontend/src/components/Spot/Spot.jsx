@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import './Spot.css'
 import { useDispatch } from 'react-redux';
-import { fetchSpotDetails } from '../../store/spotReducer';
+import { fetchSpotDetails } from '../../store/spotsReducer';
 
 const Spot = ({ spot }) => {
     const dispatch = useDispatch();
