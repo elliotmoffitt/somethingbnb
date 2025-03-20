@@ -3,6 +3,8 @@ import './Spots.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSpots } from '../../store/spotReducer';
 import Spot from '../Spot';
+import UpdateSpot from '../UpdateSpot';
+import DeleteSpot from '../DeleteSpot';
 
 const Spots = () => {
     const dispatch = useDispatch();
@@ -22,6 +24,8 @@ const Spots = () => {
                         return (
                             <div key={`${i}-${spot.name}`}>
                                 <Spot spot={spot} />
+                                <UpdateSpot spot={spot}/>
+                                <DeleteSpot spot={spot}/>
                             </div>
                         )
                     }) : ""}
