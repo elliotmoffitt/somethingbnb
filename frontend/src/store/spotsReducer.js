@@ -94,6 +94,42 @@ export const createSpot = (spot) => async (dispatch) => {
   return response;
 };
 
+export const updateSpot = (spot) => async (dispatch) => {
+  const {
+    spotImages,
+    address,
+    city,
+    country,
+    description,
+    name,
+    price,
+    state,
+    lat,
+    lng,
+  } = spot;
+  console.log(spotImages, 'FRFRFRSPOTIMAGES')
+  const response = await csrfFetch(`/api/spots/${spot.id}`, {
+    method: "PUT",
+    body: JSON.stringify({
+      address,
+      city,
+      country,
+      description,
+      name,
+      price,
+      state,
+      lat,
+      lng,
+    }),
+  });
+  const data = await response.json();
+  dispatch(setSpot(data.spot));
+  for (let spotImage of spotImages) {
+    dispatch(addImage(spotImage, data.id));
+  }
+  return response;
+};
+
 export const deleteSpot = (spotId) => async (dispatch) => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
     method: 'DELETE'
