@@ -12,9 +12,17 @@ const Spots = () => {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        dispatch(getSpotsThunk())
-        setIsLoaded(true)
-    }, [dispatch]);
+
+        const getSpots = async () => {
+            await dispatch(getSpotsThunk());
+            setIsLoaded(true)
+        }
+        // dispatch(getSpotsThunk())
+        // setIsLoaded(true)
+        if (!isLoaded) {
+            getSpots()
+        }
+    }, [dispatch, isLoaded]);
 
     // useEffect(() => {
     //     const getSpots = async () => {

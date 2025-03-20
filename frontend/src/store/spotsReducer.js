@@ -29,9 +29,9 @@ export const setSpot = (spot) => {
 export const setSpotImage = (images) => {
   return {
     type: SET_IMAGE,
-    payload: images
-  }
-}
+    payload: images,
+  };
+};
 
 export const getSpotsThunk = () => async (dispatch) => {
   const response = await csrfFetch("/api/spots/");
@@ -50,8 +50,8 @@ export const fetchSpotDetails = (spotId) => async (dispatch) => {
 export const addImage = (spotImage, spotId) => async (dispatch) => {
   console.log(spotImage, "SPOTIMAGESSSSSS");
   const response = await csrfFetch(`/api/spots/${spotId}/images/`, {
-    method: 'POST',
-    body: JSON.stringify({...spotImage})
+    method: "POST",
+    body: JSON.stringify({ ...spotImage }),
   });
   const data = await response.json();
   dispatch(setSpotImage(data));
@@ -71,7 +71,7 @@ export const createSpot = (spot) => async (dispatch) => {
     lat,
     lng,
   } = spot;
-  console.log(spotImages, 'FRFRFRSPOTIMAGES')
+  console.log(spotImages, "FRFRFRSPOTIMAGES");
   const response = await csrfFetch("/api/spots/", {
     method: "POST",
     body: JSON.stringify({
@@ -107,7 +107,7 @@ export const updateSpot = (spot) => async (dispatch) => {
     lat,
     lng,
   } = spot;
-  console.log(spotImages, 'FRFRFRSPOTIMAGES')
+  console.log(spotImages, "FRFRFRSPOTIMAGES");
   const response = await csrfFetch(`/api/spots/${spot.id}`, {
     method: "PUT",
     body: JSON.stringify({
@@ -127,15 +127,16 @@ export const updateSpot = (spot) => async (dispatch) => {
   for (let spotImage of spotImages) {
     dispatch(addImage(spotImage, data.id));
   }
+  getSpotsThunk();
   return response;
 };
 
-export const deleteSpot = (spotId) => async (dispatch) => {
+export const deleteSpot = (spotId) => async () => {
   const response = await csrfFetch(`/api/spots/${spotId}`, {
-    method: 'DELETE'
-  })
+    method: "DELETE",
+  });
   return response;
-}
+};
 
 const initialState = { entries: [], isLoading: true };
 
@@ -148,14 +149,13 @@ const spotReducer = (state = initialState, action) => {
     case SET_SPOT:
       return { ...state, spot: action.payload };
     case SET_IMAGE:
-      return {...state, spotImage: action.payload}
+      return { ...state, spotImage: action.payload };
     default:
       return state;
   }
 };
 
 export default spotReducer;
-
 
 // import { csrfFetch } from "./csrf";
 
@@ -294,9 +294,6 @@ export default spotReducer;
 // };
 
 // export default spotsReducer;
-
-
-
 
 // // import { csrfFetch } from "./csrf";
 

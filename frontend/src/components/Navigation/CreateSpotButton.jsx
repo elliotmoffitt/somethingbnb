@@ -1,12 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
-import OpenModalMenuItem from './OpenModalMenuItem';
 import './CreateSpotButton.css';
 import CreateSpotModal from '../CreateSpotModal';
 import { useModal } from '../../context/Modal';
 
 const CreateSpotButton = () => {
-  const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -18,10 +15,10 @@ const CreateSpotButton = () => {
     // if (typeof onItemClick === "function") onItemClick();
   };
 
-      const toggleMenu = (e) => {
-        e.stopPropagation();
-        setShowMenu(!showMenu);
-      };
+      // const toggleMenu = (e) => {
+      //   e.stopPropagation();
+      //   setShowMenu(!showMenu);
+      // };
 
       useEffect(() => {
         if (!showMenu) return;
@@ -37,9 +34,9 @@ const CreateSpotButton = () => {
         return () => document.removeEventListener("click", closeMenu);
       }, [showMenu]);
 
-        const closeMenu = () => setShowMenu(false);
+        // const closeMenu = () => setShowMenu(false);
 
-        const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
+        // const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
         <>
