@@ -9,29 +9,20 @@ import DeleteSpot from './DeleteSpot';
 const Spots = () => {
     const dispatch = useDispatch();
     const spots = useSelector(state => state.spotsStore.entries)
+    const sessionUser = useSelector(state => state.session.user);
+    console.log(sessionUser, 'YEAHHHHHH')
     const [isLoaded, setIsLoaded] = useState(false);
-
     useEffect(() => {
 
         const getSpots = async () => {
             await dispatch(getSpotsThunk());
             setIsLoaded(true)
         }
-        // dispatch(getSpotsThunk())
-        // setIsLoaded(true)
         if (!isLoaded) {
             getSpots()
         }
     }, [dispatch, isLoaded]);
 
-    // useEffect(() => {
-    //     const getSpots = async () => {
-    //         dispatch(getSpotsThunk())
-    //     }
-    //     if (!isLoaded) {
-    //         getSpots();
-    //     }
-    // }, [isLoaded])
 
     if (isLoaded) {
         return (
@@ -41,8 +32,8 @@ const Spots = () => {
                         return (
                             <div key={`${i}-${spot.name}`}>
                                 <Spot spot={spot} />
-                                <UpdateSpotButton spot={spot}/>
-                                <DeleteSpot spot={spot}/>
+                                {sessionUser.id === spot.ownerId && <UpdateSpotButton spot={spot}/>}
+                                {sessionUser.id === spot.ownerId && <DeleteSpot spot={spot}/>}
                             </div>
                         )
                     }) : ""}
