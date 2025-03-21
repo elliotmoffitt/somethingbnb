@@ -1,0 +1,35 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#inner-form {
+    width: 70%;
+}
+
+#form-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#form-bottom > button {
+    background-color: #FE3A5C;
+    color: white;
+    font-weight: bold;
+    height: 30px;
+    border: 0;
+    border-radius: 100px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+#description {
+    height: 50px;
+    width: 400px
+}
+
+.required-text {
+    color: red
+}

@@ -3,6 +3,10 @@
     justify-content: space-between;
 }
 
+#nav-right {
+    display: flex;
+}
+
 img {
     width: 150px;
  }

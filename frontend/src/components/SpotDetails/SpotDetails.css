@@ -1,26 +1,71 @@
-#spot {
-    height: 250px;
-    width: 250px;
+#spot-details {
+    max-width: 1000px;
+}
+
+#name-description-reserve {
+    display: flex;
+}
+
+#name-description {
+    width: 70%;
+}
+
+#reserve {
+    width: 30%;
+    border: 1px solid #8C8C8C;
+    border-radius: 5px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    /* align-items: center; */
-    border: 1px solid black
+    align-items: center;
 }
 
-#spot-img {
-    height: 250px;
-    width: 250px;
-    /* background-color: red; */
-    object-fit:contain;
-
-}
-
-#spot-info {
+#reserve-top {
     display: flex;
-    justify-content: space-between;
+    width: 100%;
+    justify-content: space-around;
 }
 
-#spot-name-desc-price {
+#reserve-button {
+    color: white;
+    background-color: #FE3A5C;
+    width: 90%;
+    height: 40px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
 
+#reviews {
+    display: flex;
+    height: 10px;
+    align-items: center;
+    gap: 10px;
+}
+
+#all-images-container {
+    display: flex;
+    /* max-width: 600px; */
+    max-height: 500px;
+}
+
+#first-image-container {
+    max-width: 610px;
+}
+
+#first-image {
+    width: 400px;
+    height: 300px;
+    /* object-fit: none; */
+    padding-right: 10px;
+}
+
+.images {
+    width: 250px;
+    height: 150px;
+    /* object-fit: none; */
+}
+
+#images-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px
 }
