@@ -1,0 +1,52 @@
+#login-modal {
+    height: 250px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#login-button {
+    border: 0;
+    color: white;
+    font-size: 15px;
+    border-radius: 100px;
+    background-color: #FE3A5C;
+    margin-top: 8px;
+    height: 30px;
+    width: 350px;
+    cursor: pointer;
+}
+
+#login-disabled {
+    border: 0;
+    color: white;
+    font-size: 15px;
+    border-radius: 100px;
+    background-color: #F0F0F0;
+    margin-top: 8px;
+    height: 30px;
+    width: 350px;
+}
+
+
+#demo-login-button {
+    border: 2px solid #FE3A5C;
+    color: black;
+    font-size: 15px;
+    border-radius: 100px;
+    background-color: white;
+    cursor: pointer;
+    margin-top: 8px;
+    height: 30px;
+
+}
+
+.inputs {
+    height: 30px;
+    width: 350px;
+}
+
+#error {
+    margin: 0;
+}

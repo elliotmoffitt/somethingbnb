@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 import * as sessionActions from '../../store/session';
@@ -12,6 +12,7 @@ function SignupFormModal() {
   const [lastName, setLastName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [disabled, setDisabled] = useState(true);
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
@@ -41,74 +42,88 @@ function SignupFormModal() {
     });
   };
 
+    // useEffect(() => {
+    //   credential.length < 5 || password.length < 7 ? setDisabled(true) : setDisabled(false)
+    // }, [credential, password, disabled])
+
+
   return (
     <>
-      <h1>Sign Up</h1>
+    <div id='signup-modal'>
+      <h1 style={{marginBottom: '10px'}}>Sign Up</h1>
+      {errors.confirmPassword && (
+          <p>{errors.confirmPassword}</p>
+        )}
       <form onSubmit={handleSubmit}>
         <label>
-          Email
           <input
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className='inputs'
+            placeholder='Email'
             required
-          />
+            />
         </label>
         {errors.email && <p>{errors.email}</p>}
         <label>
-          Username
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            className='inputs'
+            placeholder='Username'
             required
-          />
+            />
         </label>
         {errors.username && <p>{errors.username}</p>}
         <label>
-          First Name
           <input
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
+            className='inputs'
+            placeholder='First Name'
             required
-          />
+            />
         </label>
         {errors.firstName && <p>{errors.firstName}</p>}
         <label>
-          Last Name
           <input
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
+            className='inputs'
+            placeholder='Last Name'
             required
-          />
+            />
         </label>
         {errors.lastName && <p>{errors.lastName}</p>}
         <label>
-          Password
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className='inputs'
+            placeholder='Password'
             required
-          />
+            />
         </label>
         {errors.password && <p>{errors.password}</p>}
         <label>
-          Confirm Password
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            className='inputs'
+            placeholder='Confirm Password'
             required
           />
         </label>
-        {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
-        )}
-        <button type="submit">Sign Up</button>
+
+        <button type="submit" id={disabled ? 'signup-button' : 'signup-disabled'} disabled={disabled}>Sign Up</button>
       </form>
+      </div>
     </>
   );
 }

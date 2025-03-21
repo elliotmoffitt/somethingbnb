@@ -20,8 +20,8 @@ const removeUser = () => {
 };
 
 // THUNKS
-export const login = (user) => async (dispatch) => {
-  const { credential, password } = user;
+export const login = (credential, password) => async (dispatch) => {
+  console.log(credential, password)
   const response = await csrfFetch("/api/session", {
     method: "POST",
     body: JSON.stringify({
