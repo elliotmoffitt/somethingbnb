@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import './CreateSpot.css';
 import {createSpot, getSpotsThunk} from '../../store/spotsReducer';
 
 const CreateSpot = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [isLoaded, setIsLoaded] = useState(false);
     const [form, setForm] = useState({
         'country': '',
@@ -55,19 +57,11 @@ const CreateSpot = () => {
     const submitSpot = (e) => {
         e.preventDefault();
         setSubmitted(true);
-        console.log(form, 'FORM');
-        return dispatch(createSpot({ spotImages, ...form })), dispatch(getSpotsThunk())
-        // .then(closeModal)
-        // .catch(async (res) => {
-        //   const data = await res.json();
-        //   if (data?.errors) {
-        //     setErrors(data.errors);
-        //   }
-        // });
-        // for (let key in form) {
-        //     !form[key].length ? handleEmpty(form[key]): ''
-        // }
+        dispatch(createSpot({ spotImages, ...form }))
+        // navigate(`/spots/${form.id}`)
     }
+    console.log(spotImages)
+    console.log({ spotImages, ...form }, 'LOOK HERE BITCHASS')
     useEffect(() => {
         setIsLoaded(true);
     }, [])
