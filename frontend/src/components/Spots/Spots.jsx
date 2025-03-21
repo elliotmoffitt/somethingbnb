@@ -1,50 +1,47 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './Spots.css'
-// import { loadSpots } from '../../store/spotReducer';
-// import { useSearchParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSpots } from '../../store/spotReducer';
+import {  getSpotsThunk } from '../../store/spotsReducer';
 import Spot from '../Spot';
+import UpdateSpotButton from './UpdateSpotButton';
+import DeleteSpot from './DeleteSpot';
 
 const Spots = () => {
     const dispatch = useDispatch();
-    const spots = useSelector(state => state.spotState.entries)
-    // const [isLoaded, setIsLoaded] = useState(false);
-
+    const spots = useSelector(state => state.spotsStore.entries)
+    const sessionUser = useSelector(state => state.session.user);
+    console.log(sessionUser, 'YEAHHHHHH')
+    const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
-        dispatch(fetchSpots())
-        // setIsLoaded(true)
-    }, [dispatch]);
-    // console.log(spots,)
-    // const [spots, setSpots] = useState([]);
 
-    // const getSpots = async () => {
-    //   try {
-    //     const res = await fetch('http://localhost:8000/api/spots');
-    //     const spotData = await res.json();
-    //     setSpots(spotData.Spots);
-    //   }
-    //   catch (e) {
-    //     console.log(e);
-    //     return [];
-    //   }
-    // }
+        const getSpots = async () => {
+            await dispatch(getSpotsThunk());
+            setIsLoaded(true)
+        }
+        if (!isLoaded) {
+            getSpots()
+        }
+    }, [dispatch, isLoaded]);
 
-    // useEffect(() => {
-    //   getSpots();
-    // }, [])
 
-    return (
-        <div className='spots'>
-        {spots.length ? spots.map((spot, i) => {
-            return (
-            <div key={`${i}-${spot.name}`}>
-                <Spot spot={spot}/>
+    if (isLoaded) {
+        return (
+            <div id='landing-page'>
+                <div id='spots'>
+                    {spots && spots.length ? spots.map((spot, i) => {
+                        return (
+                            <div key={`${i}-${spot.name}`}>
+                                <Spot spot={spot} />
+                                {sessionUser ? sessionUser.id === spot.ownerId && <UpdateSpotButton spot={spot}/> : ""}
+                                {sessionUser ? sessionUser.id === spot.ownerId && <DeleteSpot spot={spot}/> : ""}
+                            </div>
+                        )
+                    }) : ""}
+                </div>
             </div>
-            )
-        }) : ""}
-        </div>
-    )
+        )
+    }
+    else return <h1>Loading...</h1>
 }
 
 export default Spots;
