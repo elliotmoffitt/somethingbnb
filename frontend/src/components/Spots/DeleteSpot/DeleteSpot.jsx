@@ -1,5 +1,5 @@
 import './DeleteSpot.css';
-import { useModal } from '../../context/Modal';
+import { useModal } from '../../../context/Modal';
 import DeleteSpotModal from '../DeleteSpotModal';
 
 const DeleteSpot = ({spot}) => {

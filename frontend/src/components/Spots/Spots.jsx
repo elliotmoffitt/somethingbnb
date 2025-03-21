@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {  getSpotsThunk } from '../../store/spotsReducer';
 import Spot from '../Spot';
 import UpdateSpotButton from './UpdateSpotButton';
-import DeleteSpot from '../DeleteSpot';
+import DeleteSpot from './DeleteSpot';
 
 const Spots = () => {
     const dispatch = useDispatch();
