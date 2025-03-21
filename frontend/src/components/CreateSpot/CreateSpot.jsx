@@ -54,14 +54,12 @@ const CreateSpot = () => {
         spotImages.push({ 'url': e.target.value, 'preview': preview })
     }
 
-    const submitSpot = (e) => {
+    const submitSpot = async (e) => {
         e.preventDefault();
         setSubmitted(true);
-        dispatch(createSpot({ spotImages, ...form }))
-        // navigate(`/spots/${form.id}`)
+        let data = await dispatch(createSpot({ spotImages, ...form }))
+        navigate(`/spots/${data.id}`)
     }
-    console.log(spotImages)
-    console.log({ spotImages, ...form }, 'LOOK HERE BITCHASS')
     useEffect(() => {
         setIsLoaded(true);
     }, [])

@@ -91,11 +91,11 @@ export const createSpot = (spot) => async (dispatch) => {
   for (let spotImage of spotImages) {
     dispatch(addImage(spotImage, data.id));
   }
-  return response;
+  return data;
 };
 
 export const updateSpot = (spot) => async (dispatch) => {
-  console.log(spot, 'LOOK HERE HERE HERE')
+  console.log(spot, "LOOK HERE HERE HERE");
   const {
     spotImages,
     address,
