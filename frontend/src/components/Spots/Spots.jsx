@@ -3,7 +3,7 @@ import './Spots.css'
 import { useSelector, useDispatch } from 'react-redux';
 import {  getSpotsThunk } from '../../store/spotsReducer';
 import Spot from '../Spot';
-import UpdateSpot from '../UpdateSpot';
+import UpdateSpotButton from './UpdateSpotButton';
 import DeleteSpot from '../DeleteSpot';
 
 const Spots = () => {
@@ -41,7 +41,7 @@ const Spots = () => {
                         return (
                             <div key={`${i}-${spot.name}`}>
                                 <Spot spot={spot} />
-                                <UpdateSpot spot={spot}/>
+                                <UpdateSpotButton spot={spot}/>
                                 <DeleteSpot spot={spot}/>
                             </div>
                         )

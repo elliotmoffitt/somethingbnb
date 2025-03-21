@@ -1,50 +1,16 @@
-import { useState, useEffect, useRef } from 'react';
 import './CreateSpotButton.css';
-import CreateSpotModal from '../CreateSpotModal';
-import { useModal } from '../../context/Modal';
+import { NavLink } from 'react-router-dom';
 
 const CreateSpotButton = () => {
-  const [showMenu, setShowMenu] = useState(false);
-  const ulRef = useRef();
-
-  const { setModalContent, setOnModalClose } = useModal();
-
-  const onClick = () => {
-    // if (onModalClose) setOnModalClose(onModalClose);
-    setModalContent(<CreateSpotModal setOnModalClose={setOnModalClose}/>);
-    // if (typeof onItemClick === "function") onItemClick();
-  };
-
-      // const toggleMenu = (e) => {
-      //   e.stopPropagation();
-      //   setShowMenu(!showMenu);
-      // };
-
-      useEffect(() => {
-        if (!showMenu) return;
-
-        const closeMenu = (e) => {
-          if (!ulRef.current.contains(e.target)) {
-            setShowMenu(false);
-          }
-        };
-
-        document.addEventListener('click', closeMenu);
-
-        return () => document.removeEventListener("click", closeMenu);
-      }, [showMenu]);
-
-        // const closeMenu = () => setShowMenu(false);
-
-        // const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
     return (
         <>
-          <button id="create-button" onClick={onClick}>
+        <NavLink to='/spots/new'>
+          <button id="create-button">
             Create a New Spot
-
         </button>
-                  </>
+        </NavLink>
+      </>
     )
 }
 

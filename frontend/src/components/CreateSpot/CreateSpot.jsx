@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import './CreateSpotModal.css';
-import * as spotReducer from '../../store/spotsReducer';
+import './CreateSpot.css';
+import {createSpot, getSpotsThunk} from '../../store/spotsReducer';
 
-const CreateSpotModal = () => {
+const CreateSpot = () => {
     const dispatch = useDispatch();
     const [isLoaded, setIsLoaded] = useState(false);
     const [form, setForm] = useState({
@@ -56,7 +56,7 @@ const CreateSpotModal = () => {
         e.preventDefault();
         setSubmitted(true);
         console.log(form, 'FORM');
-        return dispatch(spotReducer.createSpot({ spotImages, ...form }))
+        return dispatch(createSpot({ spotImages, ...form })), dispatch(getSpotsThunk())
         // .then(closeModal)
         // .catch(async (res) => {
         //   const data = await res.json();
@@ -155,4 +155,4 @@ const CreateSpotModal = () => {
     else return <h1>Loading...</h1>
 }
 
-export default CreateSpotModal;
+export default CreateSpot;
