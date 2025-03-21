@@ -32,8 +32,8 @@ const Spots = () => {
                         return (
                             <div key={`${i}-${spot.name}`}>
                                 <Spot spot={spot} />
-                                {sessionUser.id === spot.ownerId && <UpdateSpotButton spot={spot}/>}
-                                {sessionUser.id === spot.ownerId && <DeleteSpot spot={spot}/>}
+                                {sessionUser ? sessionUser.id === spot.ownerId && <UpdateSpotButton spot={spot}/> : ""}
+                                {sessionUser ? sessionUser.id === spot.ownerId && <DeleteSpot spot={spot}/> : ""}
                             </div>
                         )
                     }) : ""}

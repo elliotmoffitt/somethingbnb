@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './CreateSpot.css';
-import {createSpot, getSpotsThunk} from '../../store/spotsReducer';
+import {createSpot} from '../../store/spotsReducer';
 
 const CreateSpot = () => {
     const dispatch = useDispatch();
