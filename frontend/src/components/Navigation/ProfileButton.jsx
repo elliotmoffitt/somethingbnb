@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaBars } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
@@ -43,34 +43,47 @@ function ProfileButton({ user }) {
 
   return (
     <>
+    <div className="button-and-info">
       <button onClick={toggleMenu} id="profile-button">
+        <FaBars/>
         <FaUserCircle />
       </button>
-      <ul className={ulClassName} ref={ulRef}>
+      <div className={ulClassName} ref={ulRef}>
         {user ? (
           <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
+          <div className="login-info">
+            {user.username}
+            <div>
+            {user.firstName} {user.lastName}
+            </div>
+            {user.email}
+            <div>
+              <button onClick={logout} className="login-logout-signup-buttons">Log Out</button>
+              </div>
+            </div>
           </>
         ) : (
           <>
+          <div className='login-info'>
+          <button className="login-logout-signup-buttons">
             <OpenModalMenuItem
               itemText="Log In"
               onItemClick={closeMenu}
               modalComponent={<LoginFormModal />}
-            />
+              />
+            </button>
+            <button className="login-logout-signup-buttons">
             <OpenModalMenuItem
               itemText="Sign Up"
               onItemClick={closeMenu}
               modalComponent={<SignupFormModal />}
-            />
+              />
+              </button>
+              </div>
           </>
         )}
-      </ul>
+      </div>
+        </div>
     </>
   );
 }
