@@ -1,0 +1,13 @@
+#review-modal {
+    height: 250px;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#review-box {
+    height: 100px;
+    width: 250px;
+    text-align:top
+}
