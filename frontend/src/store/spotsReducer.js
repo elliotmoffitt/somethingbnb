@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import { getReviewsThunk } from "./reviewsReducer";
 
 const GET_ALL_SPOTS = "spots/getAllSpotsAction";
 const LOAD_SPOT_DETAILS = "spots/loadSpotDetails";
@@ -44,6 +45,7 @@ export const fetchSpotDetails = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`);
     const spotDetails = await response.json();
     dispatch(loadSpotDetails(spotDetails));
+    dispatch(getReviewsThunk(spotId));
     return spotDetails;
   }
 };
