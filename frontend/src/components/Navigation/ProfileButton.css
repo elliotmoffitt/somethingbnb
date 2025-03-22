@@ -1,3 +1,48 @@
 .hidden{
     visibility: hidden;
 }
+
+#profile-button {
+    border: 0;
+    color: white;
+    font-size: 15px;
+    height: 30px;
+    width: 75px;
+    border-radius: 100px;
+    background-color: #FE3A5C;
+    cursor: pointer;
+    margin: 8px 0 10px 0;
+}
+
+.login-info {
+    border: 0;
+    margin: 5px 0 0 -40px;
+    color: black;
+    font-size: 20px;
+    border-radius: 10px;
+    background-color: #F0F0F0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.login-logout-signup-buttons {
+    border: 0;
+    color: white;
+    font-size: 15px;
+    border-radius: 100px;
+    background-color: #FE3A5C;
+    cursor: pointer;
+    margin-top: 8px;
+}
+
+.button-and-info {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#login-signup {
+
+}
