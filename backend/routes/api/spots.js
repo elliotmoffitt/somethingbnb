@@ -142,6 +142,10 @@ router.get("/:spotId", validateSpotId, async (req, res, next) => {
       where: {
         spotId: req.params.spotId,
       },
+      include: [
+        { model: User, attributes: ["id", "firstName", "lastName"] },
+        { model: ReviewImage },
+      ],
     });
     oneSpotReviews.forEach((element) => {
       accumulator += Number(element.stars);
