@@ -18,6 +18,10 @@ export const getReviewsThunk = (spotId) => async (dispatch) => {
     dispatch(getAllReviewsAction(reviews));
 };
 
+export const createReview = (review) => async (dispatch) => {
+    
+}
+
 const initialState = {allReviews: [], byIds: {}};
 
 const reviewsReducer = (state = initialState, action) => {
