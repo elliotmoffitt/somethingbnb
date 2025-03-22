@@ -190,6 +190,7 @@ router.get("/:spotId", validateSpotId, async (req, res, next) => {
       avgStarRating: avgReviewRating,
       SpotImages: spotData.SpotImages,
       Owner: spotData.Owner,
+      reviews: oneSpotReviews
     };
 
     res.json(correctSpotData);
