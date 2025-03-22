@@ -18,6 +18,7 @@ function SignupFormModal() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('asdf')
     if (password === confirmPassword) {
       setErrors({});
       return dispatch(
@@ -121,7 +122,7 @@ function SignupFormModal() {
           />
         </label>
 
-        <button type="submit" id={disabled ? 'signup-button' : 'signup-disabled'} disabled={disabled}>Sign Up</button>
+        <button type="submit" id={disabled ? 'signup-button' : 'signup-disabled'} >Sign Up</button>
       </form>
       </div>
     </>
