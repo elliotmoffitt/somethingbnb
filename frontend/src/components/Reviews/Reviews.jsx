@@ -13,12 +13,16 @@ const Reviews = () => {
         <div>
             {reviews && reviews.length ? reviews.map((review, i) => {
                 return (
-                    <div>
-                        {/* <h3>{review.User.firstName} {review.User.firstName}</h3> */}
+                    <>
+                    <div key={`${review.id}-${i}`} id='reviews'>
+                        <h3 className='review-details'>{review.User.firstName} {review.User.firstName}</h3>
+                        <h4 className='review-details'>Created: {Date(review.createdAt).split(' ').slice(0, 5).join(' ')}</h4>
                         <p>{review.review}</p>
                     </div>
+                    <hr></hr>
+                    </>
                 )
-            }) : ""}
+            }) : "Be the first to post a review!"}
         </div>
         )
     }

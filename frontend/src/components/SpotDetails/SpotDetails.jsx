@@ -63,13 +63,13 @@ const SpotDetails = () => {
                                 </div>
                             </div>
                         </div>
-
-                        <div id='reviews'>
+                            <hr></hr>
+                        <div id='reviews-title'>
                             <h2>★{spotDetails.avgStarRating}</h2>
                             •
                             <h2>{spotDetails.numReviews} review(s)</h2>
-                            <Reviews/>
                         </div>
+                            <Reviews/>
                         <br></br>
                 </div>
             </>

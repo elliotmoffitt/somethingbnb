@@ -34,7 +34,7 @@
     cursor: pointer;
 }
 
-#reviews {
+#reviews-title {
     display: flex;
     height: 10px;
     align-items: center;
