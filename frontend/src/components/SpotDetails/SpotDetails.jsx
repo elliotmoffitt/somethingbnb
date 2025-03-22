@@ -63,7 +63,7 @@ const SpotDetails = () => {
                                 </div>
                             </div>
                         </div>
-                            <hr></hr>
+                        <hr></hr>
                         <div id='reviews-title'>
                             <h2>★{spotDetails.avgStarRating}</h2>
                             •
