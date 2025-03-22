@@ -3,6 +3,7 @@ import './SpotDetails.css'
 import { fetchSpotDetails } from '../../store/spotsReducer';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import Reviews from '../Reviews/Reviews';
 
 const SpotDetails = () => {
     const dispatch = useDispatch();
@@ -62,12 +63,13 @@ const SpotDetails = () => {
                                 </div>
                             </div>
                         </div>
-
-                        <div id='reviews'>
+                        <hr></hr>
+                        <div id='reviews-title'>
                             <h2>★{spotDetails.avgStarRating}</h2>
                             •
                             <h2>{spotDetails.numReviews} review(s)</h2>
                         </div>
+                            <Reviews/>
                         <br></br>
                 </div>
             </>

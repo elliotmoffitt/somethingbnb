@@ -142,6 +142,10 @@ router.get("/:spotId", validateSpotId, async (req, res, next) => {
       where: {
         spotId: req.params.spotId,
       },
+      include: [
+        { model: User, attributes: ["id", "firstName", "lastName"] },
+        { model: ReviewImage },
+      ],
     });
     oneSpotReviews.forEach((element) => {
       accumulator += Number(element.stars);
@@ -190,6 +194,7 @@ router.get("/:spotId", validateSpotId, async (req, res, next) => {
       avgStarRating: avgReviewRating,
       SpotImages: spotData.SpotImages,
       Owner: spotData.Owner,
+      reviews: oneSpotReviews
     };
 
     res.json(correctSpotData);
