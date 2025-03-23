@@ -8,7 +8,8 @@ import DeleteSpot from './DeleteSpot';
 
 const Spots = () => {
     const dispatch = useDispatch();
-    const spots = useSelector(state => state.spotsStore.entries)
+    const spots = useSelector(state => state.spots.allSpots);
+
     const sessionUser = useSelector(state => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {

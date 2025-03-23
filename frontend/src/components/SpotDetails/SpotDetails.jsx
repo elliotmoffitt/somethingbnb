@@ -7,18 +7,29 @@ import Reviews from '../Reviews/Reviews';
 
 const SpotDetails = () => {
     const dispatch = useDispatch();
-    const spotDetails = useSelector(state => state.spotsStore.entries)
+    const params = useParams()
+    console.log(params.spotId)
+    const spotDetails = useSelector(state => state.spots.byId[params.spotId]);
+
+
     const [isLoaded, setIsLoaded] = useState(false);
 
-    const params = useParams()
 
     useEffect(() => {
-        dispatch(fetchSpotDetails(params.spotId))
-        setIsLoaded(true)
+        const getSpotDetails = async () => {
+            await dispatch(fetchSpotDetails(params.spotId))
+            setIsLoaded(true)
+            console.log(spotDetails)
+        }
+        if (!isLoaded) {
+            getSpotDetails();
+        }
+
     }, [dispatch, params.spotId]);
+
     // console.log(spot.previewImage, spot.name)
     console.log(spotDetails)
-    if (isLoaded) {
+    if (isLoaded && spotDetails) {
         return (
             <>
                 <div id='spot-details'>
