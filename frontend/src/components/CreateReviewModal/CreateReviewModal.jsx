@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import './CreateReviewModal.css';
 import { FaStar, FaRegStar } from 'react-icons/fa';
+import { createReview } from '../../store/reviewsReducer';
+import { useDispatch } from 'react-redux';
 
-const CreateReviewModal = () => {
+const CreateReviewModal = ({ spotId }) => {
     const [stars, setStars] = useState(1);
     const [review, setReview] = useState('');
     const [disabled, setDisabled] = useState(false);
@@ -11,6 +13,7 @@ const CreateReviewModal = () => {
     const [isHoveringThree, setIsHoveringThree] = useState(false);
     const [isHoveringFour, setIsHoveringFour] = useState(false);
     const [isHoveringFive, setIsHoveringFive] = useState(false);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         review.length && review.length > 10 ? setDisabled(false) : setDisabled(true);
@@ -21,10 +24,15 @@ const CreateReviewModal = () => {
         else if (num === 2) setStars(2)
         else if (num === 3) setStars(3)
         else if (num === 4) setStars(4)
-        else  setStars(5)
+        else setStars(5)
+    }
+
+    const handleSubmit = () => {
+        dispatch(createReview({ stars, review }, spotId))
     }
 
     return (
+        
         <div id="review-modal">
             <h1>How was your stay?</h1>
             <textarea placeholder='Leave your review here...' id='review-box' onChange={(e) => setReview(e.target.value)}></textarea>
@@ -88,7 +96,7 @@ const CreateReviewModal = () => {
                     }>{(isHoveringFive || stars === 5) ? <FaStar /> : <FaRegStar />}
                 </div>
             </div>
-            <button id={disabled ? 'submit-disabled' : 'submit-button'} disabled={disabled}>Submit Your Review</button>
+            <button id={disabled ? 'submit-disabled' : 'submit-button'} disabled={disabled} onClick={() => handleSubmit()}>Submit Your Review</button>
         </div>
     )
 }

@@ -5,7 +5,7 @@ import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import CreateReviewModal from '../CreateReviewModal/CreateReviewModal';
 
 
-const Reviews = () => {
+const Reviews = ({ spotId }) => {
     const reviews = useSelector(state => state.spotsStore.entries.reviews)
     const [isLoaded, setIsLoaded] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -37,19 +37,20 @@ const Reviews = () => {
     if (isLoaded) {
         return (
             <div>
+                
+                <button id='review-button' onClick={toggleMenu}>
+                    <OpenModalMenuItem
+                        itemText="Post Your Review"
+                        onItemClick={closeMenu}
+                        modalComponent={<CreateReviewModal spotId={spotId} />}
+                    />
+                </button>
                 {reviews && reviews.length ? reviews.map((review, i) => {
                     return (
                         <>
-                            <button id='review-button' onClick={toggleMenu}>
-                                <OpenModalMenuItem
-                                    itemText="Post Your Review"
-                                    onItemClick={closeMenu}
-                                    modalComponent={<CreateReviewModal />}
-                                />
-                                </button>
                             <div key={`${review.id}-${i}`} id='reviews'>
                                 <h3 className='review-details'>{review.User.firstName} {review.User.lastName}</h3>
-                                <h4 className='review-details'>Created: {Date(review.createdAt).split(' ').slice(0, 5).join(' ')}</h4>
+                                <h4 className='review-details'>Created: {(review.createdAt).split(' ').slice(0, 5).join(' ')}</h4>
                                 <p>{review.review}</p>
                             </div>
                             <hr></hr>

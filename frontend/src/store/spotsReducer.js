@@ -1,5 +1,4 @@
 import { csrfFetch } from "./csrf";
-import { getReviewsThunk } from "./reviewsReducer";
 
 const GET_ALL_SPOTS = "spots/getAllSpotsAction";
 const LOAD_SPOT_DETAILS = "spots/loadSpotDetails";
@@ -35,9 +34,14 @@ export const setSpotImage = (images) => {
 };
 
 export const getSpotsThunk = () => async (dispatch) => {
-  const response = await csrfFetch("/api/spots/");
-  const spots = await response.json();
-  dispatch(getAllSpotsAction(spots));
+  try {
+    const response = await csrfFetch("/api/spots/");
+    const spots = await response.json();
+    dispatch(getAllSpotsAction(spots));
+  }
+  catch (e) {
+    console.log(e)
+  }
 };
 
 export const fetchSpotDetails = (spotId) => async (dispatch) => {
@@ -45,7 +49,6 @@ export const fetchSpotDetails = (spotId) => async (dispatch) => {
     const response = await csrfFetch(`/api/spots/${spotId}`);
     const spotDetails = await response.json();
     dispatch(loadSpotDetails(spotDetails));
-    dispatch(getReviewsThunk(spotId));
     return spotDetails;
   }
 };
@@ -140,12 +143,21 @@ export const deleteSpot = (spotId) => async () => {
   return response;
 };
 
-const initialState = { entries: [], isLoading: true };
 
-const spotReducer = (state = initialState, action) => {
+const initialState = { allSpots: [], byId: {} };
+
+const spotsReducer = (state = initialState, action) => {
+  let newState;
   switch (action.type) {
     case GET_ALL_SPOTS:
-      return { ...state, entries: [...action.spots.Spots] };
+      newState = { ...state };
+      newState.allSpots = action.payload.Spots;
+      let newByIdGetAllSpots = {};
+      for (let spot of action.payload.Spots) {
+        newByIdGetAllSpots[spot.id] = spot;
+      }
+      newState.byId = newByIdGetAllSpots;
+      return newState;
     case LOAD_SPOT_DETAILS:
       return { ...state, entries: action.spotDetails };
     case SET_SPOT:
@@ -156,8 +168,7 @@ const spotReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export default spotReducer;
+export default spotsReducer;
 
 // import { csrfFetch } from "./csrf";
 

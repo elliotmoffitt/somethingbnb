@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
 import './Spots.css'
 import { useSelector, useDispatch } from 'react-redux';
-import {  getSpotsThunk } from '../../store/spotsReducer';
+import { getSpotsThunk } from '../../store/spotsReducer';
 import Spot from '../Spot';
 import UpdateSpotButton from './UpdateSpotButton';
 import DeleteSpot from './DeleteSpot';
 
 const Spots = () => {
     const dispatch = useDispatch();
-    const spots = useSelector(state => state.spotsStore.entries)
+    const spots = useSelector(state => state.spotsReducer.allSpots)
     const sessionUser = useSelector(state => state.session.user);
-    console.log(sessionUser, 'YEAHHHHHH')
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
-
+        console.log(spots)
         const getSpots = async () => {
             await dispatch(getSpotsThunk());
             setIsLoaded(true)
@@ -32,8 +31,8 @@ const Spots = () => {
                         return (
                             <div key={`${i}-${spot.name}`}>
                                 <Spot spot={spot} />
-                                {sessionUser ? sessionUser.id === spot.ownerId && <UpdateSpotButton spot={spot}/> : ""}
-                                {sessionUser ? sessionUser.id === spot.ownerId && <DeleteSpot spot={spot}/> : ""}
+                                {sessionUser ? sessionUser.id === spot.ownerId && <UpdateSpotButton spot={spot} /> : ""}
+                                {sessionUser ? sessionUser.id === spot.ownerId && <DeleteSpot spot={spot} /> : ""}
                             </div>
                         )
                     }) : ""}

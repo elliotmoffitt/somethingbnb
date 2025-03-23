@@ -150,7 +150,7 @@ router.get("/:spotId", validateSpotId, async (req, res, next) => {
     oneSpotReviews.forEach((element) => {
       accumulator += Number(element.stars);
     });
-    let avgReviewRating = accumulator / oneSpotReviews.length;
+    let avgReviewRating = Math.floor(accumulator / oneSpotReviews.length);
 
     const oneSpot = await Spot.findOne({
       where: {
