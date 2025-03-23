@@ -1,5 +1,5 @@
 #review-modal {
-    height: 250px;
+    height: 300px;
     width: 400px;
     display: flex;
     flex-direction: column;
@@ -10,4 +10,36 @@
     height: 100px;
     width: 250px;
     text-align:top
+}
+
+#stars-group {
+    display: flex;
+}
+
+.star {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+#submit-button {
+    border: 0;
+    color: white;
+    font-size: 15px;
+    border-radius: 100px;
+    background-color: #FE3A5C;
+    margin-top: 8px;
+    height: 40px;
+    width: 300px;
+    cursor: pointer;
+}
+
+#submit-disabled {
+    border: 0;
+    color: white;
+    font-size: 15px;
+    border-radius: 100px;
+    background-color: #ff95a9;
+    margin-top: 8px;
+    height: 40px;
+    width: 300px;
 }
