@@ -3,6 +3,7 @@ import './CreateReviewModal.css';
 import { FaStar, FaRegStar } from 'react-icons/fa';
 import { createReview } from '../../store/reviewsReducer';
 import { useDispatch } from 'react-redux';
+import { useModal } from '../../context/Modal';
 
 const CreateReviewModal = ({ spotId }) => {
     const [stars, setStars] = useState(1);
@@ -13,6 +14,7 @@ const CreateReviewModal = ({ spotId }) => {
     const [isHoveringThree, setIsHoveringThree] = useState(false);
     const [isHoveringFour, setIsHoveringFour] = useState(false);
     const [isHoveringFive, setIsHoveringFive] = useState(false);
+    const { closeModal } = useModal();
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -29,10 +31,11 @@ const CreateReviewModal = ({ spotId }) => {
 
     const handleSubmit = () => {
         dispatch(createReview({ stars, review }, spotId))
+            .then(closeModal)
     }
 
     return (
-        
+
         <div id="review-modal">
             <h1>How was your stay?</h1>
             <textarea placeholder='Leave your review here...' id='review-box' onChange={(e) => setReview(e.target.value)}></textarea>

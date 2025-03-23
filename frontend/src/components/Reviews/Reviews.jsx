@@ -7,6 +7,7 @@ import CreateReviewModal from '../CreateReviewModal/CreateReviewModal';
 
 const Reviews = ({ spotId }) => {
     const reviews = useSelector(state => state.spotsStore.entries.reviews)
+    const sessionUser = useSelector(state => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
     const ulRef = useRef();
@@ -33,11 +34,10 @@ const Reviews = ({ spotId }) => {
 
     const closeMenu = () => setShowMenu(false);
 
-
+    console.log(sessionUser)
     if (isLoaded) {
         return (
             <div>
-                
                 <button id='review-button' onClick={toggleMenu}>
                     <OpenModalMenuItem
                         itemText="Post Your Review"
