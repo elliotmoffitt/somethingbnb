@@ -17,18 +17,11 @@ const CreateReviewModal = () => {
     })
 
     const handleStarClick = (num) => {
-        switch (num) {
-            case 1:
-                setStars(1)
-            case 2:
-                setStars(2)
-            case 3:
-                setStars(3)
-            case 4:
-                setStars(4)
-            case 5:
-                setStars(5)
-        }
+        if (num === 1) setStars(1)
+        else if (num === 2) setStars(2)
+        else if (num === 3) setStars(3)
+        else if (num === 4) setStars(4)
+        else  setStars(5)
     }
 
     return (
