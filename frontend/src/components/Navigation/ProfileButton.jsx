@@ -1,19 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
-import { FaUserCircle } from 'react-icons/fa';
+import { FaUserCircle, FaBars } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
 import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import './ProfileButton.css';
+import { useNavigate } from 'react-router-dom';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+    e.stopPropagation();
     setShowMenu(!showMenu);
   };
 
@@ -35,6 +37,7 @@ function ProfileButton({ user }) {
 
   const logout = (e) => {
     e.preventDefault();
+    navigate('/');
     dispatch(sessionActions.logout());
     closeMenu();
   };
@@ -43,34 +46,50 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={toggleMenu} id="profile-button">
-        <FaUserCircle />
-      </button>
-      <ul className={ulClassName} ref={ulRef}>
-        {user ? (
-          <>
-            <li>{user.username}</li>
-            <li>{user.firstName} {user.lastName}</li>
-            <li>{user.email}</li>
-            <li>
-              <button onClick={logout}>Log Out</button>
-            </li>
-          </>
-        ) : (
-          <>
-            <OpenModalMenuItem
-              itemText="Log In"
-              onItemClick={closeMenu}
-              modalComponent={<LoginFormModal />}
-            />
-            <OpenModalMenuItem
-              itemText="Sign Up"
-              onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
-            />
-          </>
-        )}
-      </ul>
+      <div className="button-and-info">
+        <button onClick={toggleMenu} id="profile-button">
+          <FaBars />
+          <FaUserCircle />
+        </button>
+        <div className={ulClassName} ref={ulRef}>
+          {user ? (
+            <>
+              <div className="login-info">
+                {user.username}
+                <div>
+                  {user.firstName} {user.lastName}
+                </div>
+                {user.email}
+                <div>
+                  <button onClick={() => navigate('/spots/current')} className='profile-buttons'>Manage Spots</button>
+                </div>
+                <div>
+                  <button onClick={logout} className="profile-buttons">Log Out</button>
+                </div>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className='login-info'>
+                <button className="profile-buttons">
+                  <OpenModalMenuItem
+                    itemText="Log In"
+                    onItemClick={closeMenu}
+                    modalComponent={<LoginFormModal />}
+                  />
+                </button>
+                <button className="profile-buttons">
+                  <OpenModalMenuItem
+                    itemText="Sign Up"
+                    onItemClick={closeMenu}
+                    modalComponent={<SignupFormModal />}
+                  />
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
     </>
   );
 }

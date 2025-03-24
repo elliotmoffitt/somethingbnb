@@ -7,6 +7,7 @@ import Spots from './components/Spots';
 import SpotDetails from './components/SpotDetails/SpotDetails';
 import UpdateSpot from './components/UpdateSpot';
 import CreateSpot from './components/CreateSpot';
+import CurrentUserSpots from './components/CurrentUserSpots';
 
 function Layout() {
   const dispatch = useDispatch();
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: '/spots/:spotId/edit',
         element: <UpdateSpot />
+      },
+      {
+        path: '/spots/current',
+        element: <CurrentUserSpots />
       },
     ]
   }

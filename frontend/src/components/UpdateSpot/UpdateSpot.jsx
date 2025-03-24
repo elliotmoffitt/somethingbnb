@@ -9,7 +9,8 @@ const UpdateSpot = () => {
     const dispatch = useDispatch();
     const params = useParams();
     const navigate = useNavigate();
-    const spotDetails = useSelector(state => state.spotsStore.entries)
+    const spotDetails = useSelector(state => state.spots.byId[params.spotId]);
+
     // const [submitted, setSubmitted] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
 
@@ -55,7 +56,6 @@ const UpdateSpot = () => {
             return newForm;
         })
     }
-    console.log(form)
     // const handleEmpty = (fieldName) => {
     //     setEmpty((prev) => {
     //         const newForm = { ...prev };
@@ -75,16 +75,22 @@ const UpdateSpot = () => {
         navigate(`/spots/${spotDetails.id}`)
 
     }
-    const getSpotDetails = async () => {
-        let data = await dispatch(fetchSpotDetails(params.spotId));
-        setForm({ ...data });
-        console.log(form, 'YUHHHHHHHHHHHHH')
-    }
-
     useEffect(() => {
-        if (!isLoaded) getSpotDetails();
-        setIsLoaded(true)
-    }, [dispatch]);
+        const getSpotDetails = async () => {
+            await dispatch(fetchSpotDetails(params.spotId))
+            setIsLoaded(true)
+            setForm({...spotDetails})
+        }
+        if (!isLoaded) {
+            getSpotDetails();
+        }
+
+    }, [dispatch, params.spotId, isLoaded, spotDetails]);
+
+    // useEffect(() => {
+    //     if (!isLoaded) getSpotDetails();
+    //     setIsLoaded(true)
+    // }, [dispatch]);
 
     // console.log(form)
     // useEffect(() => {

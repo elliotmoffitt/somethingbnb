@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
-import './Spots.css'
+import './CurrentUserSpots.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { getSpotsThunk } from '../../store/spotsReducer';
 import Spot from '../Spot';
-import UpdateSpotButton from './UpdateSpotButton';
-import DeleteSpot from './DeleteSpot';
+import UpdateSpotButton from '../Spots/UpdateSpotButton';
+import DeleteSpot from '../Spots/DeleteSpot';
 
-const Spots = () => {
+const CurrentUserSpots = () => {
     const dispatch = useDispatch();
-    const spots = useSelector(state => state.spots.allSpots);
-
     const sessionUser = useSelector(state => state.session.user);
+    const spots = useSelector(state => state.spots.allSpots.filter(spot => spot.ownerId === sessionUser.id));
+
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
         const getSpots = async () => {
@@ -35,7 +35,7 @@ const Spots = () => {
                                 {sessionUser ? sessionUser.id === spot.ownerId && <DeleteSpot spot={spot} /> : ""}
                             </div>
                         )
-                    }) : ""}
+                    }) : <h1>No Spots Found</h1>}
                 </div>
             </div>
         )
@@ -43,4 +43,4 @@ const Spots = () => {
     else return <h1>Loading...</h1>
 }
 
-export default Spots;
+export default CurrentUserSpots;
