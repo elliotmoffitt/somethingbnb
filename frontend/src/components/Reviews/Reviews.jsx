@@ -25,7 +25,7 @@ const Reviews = ({ spotId, reviews }) => {
 
     useEffect(() => {
         for (let review of reviews) {
-            if (review.userId === sessionUser.id) {
+            if (sessionUser && sessionUser === review.userId) {
                 setUserCreatedReview(true);
             }
         }
@@ -53,7 +53,7 @@ const Reviews = ({ spotId, reviews }) => {
     if (isLoaded) {
         return (
             <div>
-                {!userCreatedReview ?
+                {!userCreatedReview && sessionUser ?
                     <button id='review-button' onClick={toggleMenu}>
                         <OpenModalMenuItem
                             itemText="Post Your Review"
@@ -70,8 +70,8 @@ const Reviews = ({ spotId, reviews }) => {
                                 <h4 className='review-details'>Created: {(review.createdAt).split(' ').slice(0, 5).join(' ')}</h4>
                                 <p>{review.review}</p>
                             </div>
-                            {sessionUser.id === review.userId ?
-                                <DeleteReview reviewId={review.id} spotId={spotId}/> : ""}
+                            {sessionUser && sessionUser.id === review.userId ?
+                                <DeleteReview reviewId={review.id} spotId={spotId} /> : ""}
                             <hr></hr>
                         </>
                     )
