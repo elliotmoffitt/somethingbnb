@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import CreateReviewModal from '../CreateReviewModal/CreateReviewModal';
 import { useParams } from 'react-router-dom';
+import DeleteReviewModal from '../DeleteReviewModal/DeleteReviewModal';
+import DeleteReview from '../DeleteReview';
 
 
 const Reviews = ({ spotId, reviews }) => {
@@ -22,6 +24,14 @@ const Reviews = ({ spotId, reviews }) => {
     };
 
     useEffect(() => {
+        for (let review of reviews) {
+            if (review.userId === sessionUser.id) {
+                setUserCreatedReview(true);
+            }
+        }
+    })
+
+    useEffect(() => {
         setIsLoaded(true)
         if (!showMenu) return;
 
@@ -30,9 +40,7 @@ const Reviews = ({ spotId, reviews }) => {
                 setShowMenu(false);
             }
         };
-        for (let review of reviews) {
-            if (review.userId === sessionUser.id) setUserCreatedReview(true);
-        }
+
 
         document.addEventListener('click', closeMenu);
 
@@ -62,12 +70,14 @@ const Reviews = ({ spotId, reviews }) => {
                                 <h4 className='review-details'>Created: {(review.createdAt).split(' ').slice(0, 5).join(' ')}</h4>
                                 <p>{review.review}</p>
                             </div>
-                            {sessionUser.id === review.userId ? <><button id='update-review'>Update</button> </> : "dlsfkjjlasdfjasdlkflaksjdfldsajfldjfdsa"}
+                            {sessionUser.id === review.userId ?
+                                <DeleteReview reviewId={review.id} /> : ""}
                             <hr></hr>
                         </>
                     )
-                }) : "Be the first to post a review!"}
-            </div>
+                }) : "Be the first to post a review!"
+                }
+            </div >
         )
     }
     else return <h1>Loading...</h1>
