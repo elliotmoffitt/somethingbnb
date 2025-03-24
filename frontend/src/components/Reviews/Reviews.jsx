@@ -3,17 +3,21 @@ import './Reviews.css'
 import { useSelector } from 'react-redux';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import CreateReviewModal from '../CreateReviewModal/CreateReviewModal';
+import { useParams } from 'react-router-dom';
 
 
-const Reviews = ({ spotId }) => {
-    const reviews = useSelector(state => state.spotsStore.entries.reviews)
+const Reviews = ({ spotId, reviews }) => {
+    const params = useParams()
     const sessionUser = useSelector(state => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
+    const [userCreatedReview, setUserCreatedReview] = useState(false);
     const ulRef = useRef();
 
+
+
     const toggleMenu = (e) => {
-        e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+        e.stopPropagation();
         setShowMenu(!showMenu);
     };
 
@@ -26,6 +30,9 @@ const Reviews = ({ spotId }) => {
                 setShowMenu(false);
             }
         };
+        for (let review of reviews) {
+            if (review.userId === sessionUser.id) setUserCreatedReview(true);
+        }
 
         document.addEventListener('click', closeMenu);
 
@@ -38,13 +45,15 @@ const Reviews = ({ spotId }) => {
     if (isLoaded) {
         return (
             <div>
-                <button id='review-button' onClick={toggleMenu}>
-                    <OpenModalMenuItem
-                        itemText="Post Your Review"
-                        onItemClick={closeMenu}
-                        modalComponent={<CreateReviewModal spotId={spotId} />}
-                    />
-                </button>
+                {!userCreatedReview ?
+                    <button id='review-button' onClick={toggleMenu}>
+                        <OpenModalMenuItem
+                            itemText="Post Your Review"
+                            onItemClick={closeMenu}
+                            modalComponent={<CreateReviewModal spotId={spotId} />}
+                        />
+                    </button>
+                    : ""}
                 {reviews && reviews.length ? reviews.map((review, i) => {
                     return (
                         <>
@@ -53,6 +62,7 @@ const Reviews = ({ spotId }) => {
                                 <h4 className='review-details'>Created: {(review.createdAt).split(' ').slice(0, 5).join(' ')}</h4>
                                 <p>{review.review}</p>
                             </div>
+                            {sessionUser.id === review.userId ? <><button id='update-review'>Update</button> </> : "dlsfkjjlasdfjasdlkflaksjdfldsajfldjfdsa"}
                             <hr></hr>
                         </>
                     )

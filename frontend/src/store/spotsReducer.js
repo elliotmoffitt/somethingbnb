@@ -99,8 +99,15 @@ const spotsReducer = (state = initialState, action) => {
       }
       newState.byId = newByIdGetAllSpots;
       return newState;
-    case LOAD_SPOT_DETAILS:
-      return { ...state, byId: action.spotDetails };
+      case LOAD_SPOT_DETAILS:
+        return {
+          ...state,
+          byId: {
+            ...state.byId,
+            [action.spotDetails.id]: action.spotDetails
+          }
+        };
+
     case SET_SPOT:
       return { ...state, spot: action.payload };
     case SET_IMAGE:

@@ -7,8 +7,7 @@ import Reviews from '../Reviews/Reviews';
 
 const SpotDetails = () => {
     const dispatch = useDispatch();
-    const params = useParams()
-    console.log(params.spotId)
+    const params = useParams();
     const spotDetails = useSelector(state => state.spots.byId[params.spotId]);
 
 
@@ -27,7 +26,6 @@ const SpotDetails = () => {
 
     }, [dispatch, params.spotId]);
 
-    // console.log(spot.previewImage, spot.name)
     console.log(spotDetails)
     if (isLoaded && spotDetails) {
         return (
@@ -80,7 +78,7 @@ const SpotDetails = () => {
                         •
                         <h2>{spotDetails.numReviews} review(s)</h2>
                     </div>
-                    <Reviews spotId={spotDetails.id} />
+                    <Reviews spotId={spotDetails.id} reviews={spotDetails.reviews}/>
                     <br></br>
                 </div>
             </>
