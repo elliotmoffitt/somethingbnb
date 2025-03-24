@@ -13,7 +13,6 @@ const CurrentUserSpots = () => {
 
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
-        console.log(spots)
         const getSpots = async () => {
             await dispatch(getSpotsThunk());
             setIsLoaded(true)
@@ -36,7 +35,7 @@ const CurrentUserSpots = () => {
                                 {sessionUser ? sessionUser.id === spot.ownerId && <DeleteSpot spot={spot} /> : ""}
                             </div>
                         )
-                    }) : ""}
+                    }) : <h1>No Spots Found</h1>}
                 </div>
             </div>
         )

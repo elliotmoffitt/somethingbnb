@@ -18,7 +18,6 @@ const SpotDetails = () => {
         const getSpotDetails = async () => {
             await dispatch(fetchSpotDetails(params.spotId))
             setIsLoaded(true)
-            console.log(spotDetails)
         }
         if (!isLoaded) {
             getSpotDetails();
@@ -26,7 +25,6 @@ const SpotDetails = () => {
 
     }, [dispatch, params.spotId, isLoaded, spotDetails]);
 
-    console.log(spotDetails)
     if (isLoaded && spotDetails) {
         return (
             <>

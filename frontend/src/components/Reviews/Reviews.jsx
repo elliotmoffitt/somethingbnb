@@ -22,9 +22,10 @@ const Reviews = ({ spotId, reviews }) => {
 
     useEffect(() => {
         for (let review of reviews) {
-            if (sessionUser && sessionUser === review.userId) {
+            if (sessionUser && sessionUser.id === review.userId) {
                 setUserCreatedReview(true);
             }
+            else setUserCreatedReview(false);
         }
     }, [reviews, sessionUser])
 
@@ -46,7 +47,6 @@ const Reviews = ({ spotId, reviews }) => {
 
     const closeMenu = () => setShowMenu(false);
 
-    console.log(sessionUser)
     if (isLoaded) {
         return (
             <div>

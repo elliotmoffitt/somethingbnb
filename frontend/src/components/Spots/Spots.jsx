@@ -13,7 +13,6 @@ const Spots = () => {
     const sessionUser = useSelector(state => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
-        console.log(spots)
         const getSpots = async () => {
             await dispatch(getSpotsThunk());
             setIsLoaded(true)

@@ -56,7 +56,6 @@ const UpdateSpot = () => {
             return newForm;
         })
     }
-    console.log(form)
     // const handleEmpty = (fieldName) => {
     //     setEmpty((prev) => {
     //         const newForm = { ...prev };
@@ -81,7 +80,6 @@ const UpdateSpot = () => {
             await dispatch(fetchSpotDetails(params.spotId))
             setIsLoaded(true)
             setForm({...spotDetails})
-            console.log(spotDetails)
         }
         if (!isLoaded) {
             getSpotDetails();
