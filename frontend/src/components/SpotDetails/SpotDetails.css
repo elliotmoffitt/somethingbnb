@@ -23,6 +23,7 @@
     display: flex;
     width: 100%;
     justify-content: space-around;
+    align-items: center;
 }
 
 #reserve-button {
@@ -45,7 +46,6 @@
 
 #all-images-container {
     display: flex;
-    /* max-width: 600px; */
     max-height: 500px;
 }
 
@@ -56,14 +56,12 @@
 #first-image {
     width: 400px;
     height: 300px;
-    /* object-fit: none; */
     padding-right: 10px;
 }
 
 .images {
     width: 250px;
     height: 150px;
-    /* object-fit: none; */
 }
 
 #images-container {

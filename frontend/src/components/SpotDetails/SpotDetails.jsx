@@ -4,6 +4,7 @@ import { fetchSpotDetails } from '../../store/spotsReducer';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Reviews from '../Reviews/Reviews';
+import { FaStar } from 'react-icons/fa';
 
 const SpotDetails = () => {
     const dispatch = useDispatch();
@@ -45,11 +46,6 @@ const SpotDetails = () => {
                                     )) : ''}
                                 </div>
                             </div>
-                            {/* {spotDetails.SpotImages ? spotDetails.SpotImages.map((image, i) => (
-                                    <div key={`${i}-${image.id}`} className={i === 0 ? 'first-image-container' : 'images-container'}>
-                                        <img src={image.url} className={i === 0 ? 'first-image' : 'images'} />
-                                    </div>
-                            )) : ''} */}
                         </div>
 
                         <div id='name-description-reserve'>
@@ -61,8 +57,8 @@ const SpotDetails = () => {
                             <div id='reserve'>
                                 <div id='reserve-top'>
                                     <h2>${spotDetails.price} night</h2>
-                                    <h4>★{spotDetails.avgStarRating}</h4>
-                                    <h4>{spotDetails.numReviews} review(s)</h4>
+                                    <h3>{spotDetails.numReviews ? <><FaStar/>{spotDetails.avgStarRating}</> : ""}</h3>
+                                    <h3>{spotDetails.numReviews === 1 ? <>1 review</>: <>{spotDetails.numReviews} reviews</>}</h3>
                                 </div>
                                 <button id='reserve-button' onClick={() => window.alert('Feature Coming Soon...')}>
                                     Reserve
@@ -72,9 +68,9 @@ const SpotDetails = () => {
                     </div>
                     <hr></hr>
                     <div id='reviews-title'>
-                        <h2>★{spotDetails.avgStarRating}</h2>
+                        <h2>{spotDetails.numReviews ? <><FaStar/>{spotDetails.avgStarRating}</> : ""} </h2>
                         •
-                        <h2>{spotDetails.numReviews} review(s)</h2>
+                        <h2>{spotDetails.numReviews === 1 ? <>1 review</>: <>{spotDetails.numReviews} reviews</>}</h2>
                     </div>
                     <Reviews spotId={spotDetails.id} reviews={spotDetails.reviews}/>
                     <br></br>

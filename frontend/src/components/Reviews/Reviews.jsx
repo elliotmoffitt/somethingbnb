@@ -72,7 +72,7 @@ const Reviews = ({ spotId, reviews }) => {
                             <hr></hr>
                         </>
                     )
-                }) : "Be the first to post a review!"
+                }) : <h4>Be the first to post a review!</h4>
                 }
             </div >
         )
