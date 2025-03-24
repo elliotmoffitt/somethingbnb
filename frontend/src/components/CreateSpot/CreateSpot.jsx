@@ -7,6 +7,7 @@ import {createSpot} from '../../store/spotsReducer';
 const CreateSpot = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [previewDisabled, setPreviewDisabled] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
     const [form, setForm] = useState({
         'country': '',
@@ -54,6 +55,7 @@ const CreateSpot = () => {
         spotImages.push({ 'url': e.target.value, 'preview': preview })
     }
 
+
     const submitSpot = async (e) => {
         e.preventDefault();
         setSubmitted(true);
@@ -68,7 +70,6 @@ const CreateSpot = () => {
         for (let key in form) {
             if (!form[key].length && submitted) {
                 handleEmpty(key);
-                console.log(key)
             }
         }
         handleEmpty('');
@@ -130,12 +131,15 @@ const CreateSpot = () => {
                     <div id="form-bottom">
                         <h3>Liven up your spot with photos</h3>
                         <p>Submit a link to at least one photo to publish your spot.</p>
-                        <input placeholder="Preview Image URL" onChange={(e) => handleImageUrl(e, true)} />
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} />
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} />
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} />
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} />
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} />
+                        <input placeholder="Preview Image URL" onChange={(e) => {
+                            handleImageUrl(e, true)
+                            e.target.value.length ? setPreviewDisabled(false) : setPreviewDisabled(true)
+                        }} />
+                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} disabled={previewDisabled}/>
+                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} disabled={previewDisabled}/>
+                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} disabled={previewDisabled}/>
+                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} disabled={previewDisabled}/>
+                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} disabled={previewDisabled}/>
                         <button onClick={(e) => submitSpot(e)}>Create Spot</button>
                     </div>
 

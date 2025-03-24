@@ -9,3 +9,26 @@
     gap: 10px;
     max-width: 1200px;
 }
+
+#tooltip {
+    position: relative;
+  }
+
+  #tooltip #tooltip-text {
+    visibility: hidden;
+    background-color: rgb(75, 75, 75);
+    color: white;
+    text-align: center;
+    border-radius: 100px;
+    padding: 5px 10px 5px 10px;
+
+    position: absolute;
+    z-index: 1;
+
+    left: 10px;
+    top: 10px;
+  }
+
+  #tooltip:hover #tooltip-text {
+    visibility: visible;
+  }

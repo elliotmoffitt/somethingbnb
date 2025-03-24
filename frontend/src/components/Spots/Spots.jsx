@@ -30,7 +30,10 @@ const Spots = () => {
                     {spots && spots.length ? spots.map((spot, i) => {
                         return (
                             <div key={`${i}-${spot.name}`}>
-                                <Spot spot={spot} />
+                                <div id='tooltip'>
+                                    <Spot spot={spot} />
+                                    <span id='tooltip-text'>{spot.name}</span>
+                                </div>
                                 {sessionUser ? sessionUser.id === spot.ownerId && <UpdateSpotButton spot={spot} /> : ""}
                                 {sessionUser ? sessionUser.id === spot.ownerId && <DeleteSpot spot={spot} /> : ""}
                             </div>
