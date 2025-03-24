@@ -3,13 +3,10 @@ import './Reviews.css'
 import { useSelector } from 'react-redux';
 import OpenModalMenuItem from '../Navigation/OpenModalMenuItem';
 import CreateReviewModal from '../CreateReviewModal/CreateReviewModal';
-import { useParams } from 'react-router-dom';
-import DeleteReviewModal from '../DeleteReviewModal/DeleteReviewModal';
 import DeleteReview from '../DeleteReview';
 
 
 const Reviews = ({ spotId, reviews }) => {
-    const params = useParams()
     const sessionUser = useSelector(state => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -29,7 +26,7 @@ const Reviews = ({ spotId, reviews }) => {
                 setUserCreatedReview(true);
             }
         }
-    })
+    }, [reviews, sessionUser])
 
     useEffect(() => {
         setIsLoaded(true)

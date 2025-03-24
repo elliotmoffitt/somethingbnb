@@ -24,7 +24,7 @@ const SpotDetails = () => {
             getSpotDetails();
         }
 
-    }, [dispatch, params.spotId]);
+    }, [dispatch, params.spotId, isLoaded, spotDetails]);
 
     console.log(spotDetails)
     if (isLoaded && spotDetails) {

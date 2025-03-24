@@ -87,7 +87,7 @@ const UpdateSpot = () => {
             getSpotDetails();
         }
 
-    }, [dispatch, params.spotId]);
+    }, [dispatch, params.spotId, isLoaded, spotDetails]);
 
     // useEffect(() => {
     //     if (!isLoaded) getSpotDetails();

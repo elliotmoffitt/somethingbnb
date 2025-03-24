@@ -19,7 +19,7 @@ const CreateReviewModal = ({ spotId }) => {
 
     useEffect(() => {
         review.length && review.length > 10 ? setDisabled(false) : setDisabled(true);
-    })
+    }, [review.length])
 
     const handleStarClick = (num) => {
         if (num === 1) setStars(1)

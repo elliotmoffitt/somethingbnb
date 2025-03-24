@@ -21,7 +21,7 @@ const CurrentUserSpots = () => {
         if (!isLoaded) {
             getSpots()
         }
-    }, [dispatch, isLoaded]);
+    }, [dispatch, isLoaded, spots]);
 
 
     if (isLoaded) {

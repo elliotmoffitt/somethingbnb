@@ -7,7 +7,6 @@ import LoginFormModal from '../LoginFormModal';
 import SignupFormModal from '../SignupFormModal';
 import './ProfileButton.css';
 import { useNavigate } from 'react-router-dom';
-import CurrentUserSpots from '../CurrentUserSpots';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -16,7 +15,7 @@ function ProfileButton({ user }) {
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+    e.stopPropagation();
     setShowMenu(!showMenu);
   };
 
