@@ -71,7 +71,7 @@ const Reviews = ({ spotId, reviews }) => {
                                 <p>{review.review}</p>
                             </div>
                             {sessionUser.id === review.userId ?
-                                <DeleteReview reviewId={review.id} /> : ""}
+                                <DeleteReview reviewId={review.id} spotId={spotId}/> : ""}
                             <hr></hr>
                         </>
                     )

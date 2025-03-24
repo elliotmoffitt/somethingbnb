@@ -2,12 +2,12 @@ import './DeleteReview.css';
 import { useModal } from '../../context/Modal';
 import DeleteReviewModal from '../DeleteReviewModal';
 
-const DeleteReview = ({ reviewId }) => {
+const DeleteReview = ({ reviewId, spotId }) => {
     const { setModalContent } = useModal();
     const { closeModal } = useModal();
 
     const onClick = () => {
-        setModalContent(<DeleteReviewModal closeModal={closeModal} reviewId={reviewId} />);
+        setModalContent(<DeleteReviewModal closeModal={closeModal} reviewId={reviewId} spotId={spotId}/>);
     };
         return (
             <>

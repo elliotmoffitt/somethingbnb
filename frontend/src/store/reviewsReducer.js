@@ -1,59 +1,46 @@
 import { csrfFetch } from "./csrf";
+import { fetchSpotDetails } from "./spotsReducer";
 
-const GET_ALL_REVIEWS = 'reviews/getAllReviewsAction';
 const SET_REVIEW = 'reviews/setReview';
-const SET_IMAGE = 'spots/setReviewImage';
+const DELETE_REVIEW = 'reviews/deleteReview';
 
-export const setReview = (review) => {
-    return {
-        type: SET_REVIEW,
-        payload: review
-    }
-}
+export const setReview = (review) => ({
+  type: SET_REVIEW,
+  payload: review
+});
 
 export const createReview = (reviewForm, spotId) => async (dispatch) => {
-    console.log({...reviewForm}, spotId)
-    try {
-        const response = await csrfFetch(`/api/spots/${spotId}/reviews/`, {
-            method: "POST",
-            body: JSON.stringify({...reviewForm})
-        });
-        const data = await response.json();
-        return data;
-    } catch (e) {
+  const response = await csrfFetch(`/api/spots/${spotId}/reviews/`, {
+    method: "POST",
+    body: JSON.stringify({ ...reviewForm })
+  });
+  const data = await response.json();
+  dispatch(fetchSpotDetails(spotId))
+  return data;
+};
 
-    }
-}
+export const deleteReview = (reviewId, spotId) => async (dispatch) => {
+  const response = await csrfFetch(`/api/reviews/${reviewId}`, {
+    method: "DELETE",
+  });
+  if (response.ok) {
+    dispatch({ type: DELETE_REVIEW, reviewId });
+  }
+  dispatch(fetchSpotDetails(spotId))
+  return response;
+};
 
-export const deleteReview = (reviewId) => async () => {
-    const response = await csrfFetch(`/api/reviews/${reviewId}`, {
-      method: "DELETE",
-    });
-    return response;
-  };
-
-export const getReviewsCurrentUser = () => {
-
-}
-
-const initialState = {allReviews: [], byIds: {}};
+const initialState = { allReviews: [], byId: {} };
 
 const reviewsReducer = (state = initialState, action) => {
-    let newState = {};
-
-    switch(action.type) {
-        // case GET_ALL_REVIEWS:
-        //     newState = {...state};
-        //     newState.allReviews = action.payload;
-        //     for (let review of action.payload) {
-        //         newState.byId[review.id] = review;
-        //     }
-        //     return newState;
-        case SET_REVIEW:
-            return {...state, review: action.payload};
+  switch (action.type) {
+    case DELETE_REVIEW:
+      return { ...state, allReviews: state.allReviews.filter(review => review.id !== action.reviewId) };
+    case SET_REVIEW:
+      return { ...state, review: action.payload };
     default:
-        return newState;
-    }
-}
+      return state;
+  }
+};
 
 export default reviewsReducer;
