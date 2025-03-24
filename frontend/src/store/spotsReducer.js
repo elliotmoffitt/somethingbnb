@@ -1,12 +1,18 @@
 import { csrfFetch } from "./csrf";
 
 const GET_ALL_SPOTS = "spots/getAllSpotsAction";
+const GET_ALL_SPOTS_CURRENT = "spots/getAllSpotsCurrent";
 const LOAD_SPOT_DETAILS = "spots/loadSpotDetails";
 const SET_SPOT = "spots/setSpot";
 const SET_IMAGE = "spots/setSpotImage";
 
 export const getAllSpotsAction = (spots) => ({
   type: GET_ALL_SPOTS,
+  spots,
+});
+
+export const getAllSpotsCurrent = (spots) => ({
+  type: GET_ALL_SPOTS_CURRENT,
   spots,
 });
 
@@ -35,6 +41,15 @@ export const fetchSpotDetails = (spotId) => async (dispatch) => {
   if (spotId) {
     const response = await csrfFetch(`/api/spots/${spotId}`);
     const spotDetails = await response.json();
+    dispatch(loadSpotDetails(spotDetails));
+    return spotDetails;
+  }
+};
+
+export const getSpotsCurrent = (userId) => async (dispatch) => {
+  if (userId) {
+    const response = await csrfFetch(`/api/spots/${userId}`);
+    const spots = await response.json();
     dispatch(loadSpotDetails(spotDetails));
     return spotDetails;
   }
