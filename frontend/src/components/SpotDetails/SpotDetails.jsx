@@ -16,6 +16,7 @@ const SpotDetails = () => {
 
 
     useEffect(() => {
+        console.log(spotDetails)
         const getSpotDetails = async () => {
             await dispatch(fetchSpotDetails(params.spotId))
             setIsLoaded(true)

@@ -2,13 +2,18 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './CreateSpot.css';
-import {createSpot} from '../../store/spotsReducer';
+import { createSpot } from '../../store/spotsReducer';
 
 const CreateSpot = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [previewDisabled, setPreviewDisabled] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [secondImage, setSecondImage] = useState('');
+    const [thirdImage, setThirdImage] = useState('');
+    const [fourthImage, setFourthImage] = useState('');
+    const [fifthImage, setFifthImage] = useState('');
     const [form, setForm] = useState({
         'country': '',
         'address': '',
@@ -52,12 +57,19 @@ const CreateSpot = () => {
     }
 
     const handleImageUrl = (e, preview) => {
-        spotImages.push({ 'url': e.target.value, 'preview': preview })
+
+
+        // spotImages.push({ 'url': e.target.value, 'preview': preview })
     }
 
 
     const submitSpot = async (e) => {
         e.preventDefault();
+        spotImages.push({ 'url': previewImage, 'preview': true })
+        secondImage.length ? spotImages.push({ 'url': secondImage, 'preview': false }) : null
+        thirdImage.length ? spotImages.push({ 'url': thirdImage, 'preview': false }) : null
+        fourthImage.length ? spotImages.push({ 'url': fourthImage, 'preview': false }) : null
+        fifthImage.length ? spotImages.push({ 'url': fifthImage, 'preview': false }) : null
         setSubmitted(true);
         let data = await dispatch(createSpot({ spotImages, ...form }))
         navigate(`/spots/${data.id}`)
@@ -132,14 +144,13 @@ const CreateSpot = () => {
                         <h3>Liven up your spot with photos</h3>
                         <p>Submit a link to at least one photo to publish your spot.</p>
                         <input placeholder="Preview Image URL" onChange={(e) => {
-                            handleImageUrl(e, true)
+                            setPreviewImage(e.target.value)
                             e.target.value.length ? setPreviewDisabled(false) : setPreviewDisabled(true)
                         }} />
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} disabled={previewDisabled}/>
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} disabled={previewDisabled}/>
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} disabled={previewDisabled}/>
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} disabled={previewDisabled}/>
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} disabled={previewDisabled}/>
+                        <input placeholder="Image URL" onChange={(e) => setSecondImage(e.target.value)} disabled={previewDisabled} />
+                        <input placeholder="Image URL" onChange={(e) => setThirdImage(e.target.value)} disabled={previewDisabled} />
+                        <input placeholder="Image URL" onChange={(e) => setFourthImage(e.target.value)} disabled={previewDisabled} />
+                        <input placeholder="Image URL" onChange={(e) => setFifthImage(e.target.value)} disabled={previewDisabled} />
                         <button onClick={(e) => submitSpot(e)}>Create Spot</button>
                     </div>
 
