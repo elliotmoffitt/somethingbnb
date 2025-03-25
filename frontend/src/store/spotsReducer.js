@@ -103,24 +103,20 @@ const initialState = { allSpots: [], byId: {} };
 
 const spotsReducer = (state = initialState, action) => {
   let newState;
-  let newByIdGetAllSpots = {};
   switch (action.type) {
     case GET_ALL_SPOTS:
       newState = { ...state };
       newState.allSpots = action.spots.Spots;
-      for (let spot of action.spots.Spots) {
-        newByIdGetAllSpots[spot.id] = spot;
-      }
-      newState.byId = newByIdGetAllSpots;
+      // for (let spot of action.spots.Spots) {
+      //   newByIdGetAllSpots[spot.id] = spot;
+      // }
+      // newState.byId = newByIdGetAllSpots;
       return newState;
       case LOAD_SPOT_DETAILS:
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [action.spotDetails.id]: action.spotDetails
-          }
-        };
+          newState = { ...state };
+          newState.byId = {};
+          newState.byId[action.spotDetails.id] = action.spotDetails;
+          return newState;
 
     case SET_SPOT:
       return { ...state, spot: action.payload };

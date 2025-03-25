@@ -14,7 +14,7 @@ form {
     align-items: center;
 }
 
-#form-bottom > button {
+/* #form-bottom > button {
     background-color: #FE3A5C;
     color: white;
     font-weight: bold;
@@ -23,7 +23,7 @@ form {
     border-radius: 100px;
     margin-top: 10px;
     cursor: pointer;
-}
+} */
 
 #description {
     height: 50px;
@@ -32,4 +32,27 @@ form {
 
 .required-text {
     color: red
+}
+
+#submit-button {
+    border: 0;
+    color: white;
+    font-size: 15px;
+    border-radius: 100px;
+    background-color: #FE3A5C;
+    margin-top: 8px;
+    height: 40px;
+    width: 300px;
+    cursor: pointer;
+}
+
+#submit-disabled {
+    border: 0;
+    color: white;
+    font-size: 15px;
+    border-radius: 100px;
+    background-color: #ff95a9;
+    margin-top: 8px;
+    height: 40px;
+    width: 300px;
 }

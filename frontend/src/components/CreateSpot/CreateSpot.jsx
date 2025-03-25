@@ -9,6 +9,7 @@ const CreateSpot = () => {
     const navigate = useNavigate();
     const [previewDisabled, setPreviewDisabled] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
+    // const [disabled, setDisabled] = useState();
     const [previewImage, setPreviewImage] = useState('');
     const [secondImage, setSecondImage] = useState('');
     const [thirdImage, setThirdImage] = useState('');
@@ -56,11 +57,10 @@ const CreateSpot = () => {
         })
     }
 
-    const handleImageUrl = (e, preview) => {
+    // useEffect(() => {
 
-
-        // spotImages.push({ 'url': e.target.value, 'preview': preview })
-    }
+    //     !previewImage.length || !Object.values(form).length ? setDisabled(true) : setDisabled(false);
+    // }, [previewImage.length, form])
 
 
     const submitSpot = async (e) => {
@@ -151,7 +151,8 @@ const CreateSpot = () => {
                         <input placeholder="Image URL" onChange={(e) => setThirdImage(e.target.value)} disabled={previewDisabled} />
                         <input placeholder="Image URL" onChange={(e) => setFourthImage(e.target.value)} disabled={previewDisabled} />
                         <input placeholder="Image URL" onChange={(e) => setFifthImage(e.target.value)} disabled={previewDisabled} />
-                        <button onClick={(e) => submitSpot(e)}>Create Spot</button>
+                        {/* <button id={disabled ? 'submit-disabled' : 'submit-button'} onClick={(e) => submitSpot(e)} disabled={disabled}>Create Spot</button> */}
+                        <button id='submit-button' onClick={(e) => submitSpot(e)}>Create Spot</button>
                     </div>
 
 

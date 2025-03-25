@@ -16,7 +16,6 @@ const SpotDetails = () => {
 
 
     useEffect(() => {
-        console.log(spotDetails)
         const getSpotDetails = async () => {
             await dispatch(fetchSpotDetails(params.spotId))
             setIsLoaded(true)
@@ -27,7 +26,7 @@ const SpotDetails = () => {
 
     }, [dispatch, params.spotId, isLoaded, spotDetails]);
 
-    if (isLoaded && spotDetails) {
+    if (isLoaded) {
         return (
             <>
                 <div id='spot-details'>
@@ -58,8 +57,8 @@ const SpotDetails = () => {
                             <div id='reserve'>
                                 <div id='reserve-top'>
                                     <h2>${spotDetails.price} night</h2>
-                                    <h3>{spotDetails.numReviews ? <><FaStar/>{spotDetails.avgStarRating}</> : ""}</h3>
-                                    <h3>{spotDetails.numReviews === 1 ? <>1 review</>: <>{spotDetails.numReviews} reviews</>}</h3>
+                                    <h3>{spotDetails.numReviews ? <><FaStar />{spotDetails.avgStarRating}</> : ""}</h3>
+                                    <h3>{spotDetails.numReviews === 1 ? <>1 review</> : <>{spotDetails.numReviews} reviews</>}</h3>
                                 </div>
                                 <button id='reserve-button' onClick={() => window.alert('Feature Coming Soon...')}>
                                     Reserve
@@ -69,11 +68,11 @@ const SpotDetails = () => {
                     </div>
                     <hr></hr>
                     <div id='reviews-title'>
-                        <h2>{spotDetails.numReviews ? <><FaStar/>{spotDetails.avgStarRating}</> : ""} </h2>
+                        <h2>{spotDetails.numReviews ? <><FaStar />{spotDetails.avgStarRating}</> : ""} </h2>
                         •
-                        <h2>{spotDetails.numReviews === 1 ? <>1 review</>: <>{spotDetails.numReviews} reviews</>}</h2>
+                        <h2>{spotDetails.numReviews === 1 ? <>1 review</> : <>{spotDetails.numReviews} reviews</>}</h2>
                     </div>
-                    <Reviews spotId={spotDetails.id} reviews={spotDetails.reviews}/>
+                    <Reviews spotId={spotDetails.id} reviews={spotDetails.reviews} />
                     <br></br>
                 </div>
             </>
