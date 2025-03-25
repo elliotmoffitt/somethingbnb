@@ -61,16 +61,19 @@ const Reviews = ({ spotId, reviews }) => {
                     : ""}
                 {reviews && reviews.length ? reviews.map((review, i) => {
                     return (
-                        <>
+                        <div key={`${review.id}-${spotId}-${i}`}>
                             <div key={`${review.id}-${i}`} id='reviews'>
                                 <h3 className='review-details'>{review.User.firstName} {review.User.lastName}</h3>
                                 <h4 className='review-details'>Created: {(review.createdAt).split(' ').slice(0, 5).join(' ')}</h4>
                                 <p>{review.review}</p>
                             </div>
                             {sessionUser && sessionUser.id === review.userId ?
-                                <DeleteReview reviewId={review.id} spotId={spotId} /> : ""}
-                            <hr></hr>
-                        </>
+                                <div key={`${sessionUser.id}-${review.userId}`}>
+                                    <DeleteReview reviewId={review.id} spotId={spotId} />
+                                    <hr></hr>
+                                </div>
+                                : ""}
+                        </div>
                     )
                 }) : <h4>Be the first to post a review!</h4>
                 }
