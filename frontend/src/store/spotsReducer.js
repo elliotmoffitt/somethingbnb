@@ -1,14 +1,16 @@
 import { csrfFetch } from "./csrf";
 
-const GET_ALL_SPOTS = "spots/getAllSpotsAction";
+const GET_ALL_SPOTS = "spots/getAllSpots";
 const GET_ALL_SPOTS_CURRENT = "spots/getAllSpotsCurrent";
-const LOAD_SPOT_DETAILS = "spots/loadSpotDetails";
-const SET_SPOT = "spots/setSpot";
-const SET_IMAGE = "spots/setSpotImage";
+const GET_SPOT_DETAILS = "spots/getSpotDetails";
+const CREATE_SPOT = "spots/createSpot";
+const UPDATE_SPOT = "spots/updateSpot";
+const ADD_IMAGE = "spots/addSpotImage";
+const DELETE_SPOT = "spots/deleteSpot";
 
-export const getAllSpotsAction = (spots) => ({
+export const getAllSpots = (spots) => ({
   type: GET_ALL_SPOTS,
-  spots,
+  payload: spots,
 });
 
 export const getAllSpotsCurrent = (spots) => ({
@@ -17,27 +19,31 @@ export const getAllSpotsCurrent = (spots) => ({
 });
 
 export const loadSpotDetails = (spotDetails) => ({
-  type: LOAD_SPOT_DETAILS,
-  spotDetails,
+  type: GET_SPOT_DETAILS,
+  payload: spotDetails,
 });
 
 export const setSpot = (spot) => ({
-  type: SET_SPOT,
+  type: CREATE_SPOT,
   payload: spot,
 });
 
 export const setSpotImage = (images) => ({
-  type: SET_IMAGE,
+  type: ADD_IMAGE,
   payload: images,
 });
 
 export const getSpotsThunk = () => async (dispatch) => {
-  const response = await csrfFetch("/api/spots/");
-  const spots = await response.json();
-  dispatch(getAllSpotsAction(spots));
+  try {
+    const response = await csrfFetch("/api/spots/");
+    const spots = await response.json();
+    dispatch(getAllSpots(spots));
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-export const fetchSpotDetails = (spotId) => async (dispatch) => {
+export const getSpotDetailsThunk = (spotId) => async (dispatch) => {
   if (spotId) {
     const response = await csrfFetch(`/api/spots/${spotId}`);
     const spotDetails = await response.json();
@@ -65,10 +71,31 @@ export const addImage = (spotImage, spotId) => async (dispatch) => {
 };
 
 export const createSpot = (spot) => async (dispatch) => {
-  const { spotImages, address, city, country, description, name, price, state, lat, lng } = spot;
+  const {
+    spotImages,
+    address,
+    city,
+    country,
+    description,
+    name,
+    price,
+    state,
+    lat,
+    lng,
+  } = spot;
   const response = await csrfFetch("/api/spots/", {
     method: "POST",
-    body: JSON.stringify({ address, city, country, description, name, price, state, lat, lng }),
+    body: JSON.stringify({
+      address,
+      city,
+      country,
+      description,
+      name,
+      price,
+      state,
+      lat,
+      lng,
+    }),
   });
   const data = await response.json();
   dispatch(setSpot(data.spot));
@@ -79,10 +106,32 @@ export const createSpot = (spot) => async (dispatch) => {
 };
 
 export const updateSpot = (spot) => async (dispatch) => {
-  const { spotImages, address, city, country, description, name, price, state, lat, lng, id } = spot;
+  const {
+    spotImages,
+    address,
+    city,
+    country,
+    description,
+    name,
+    price,
+    state,
+    lat,
+    lng,
+    id,
+  } = spot;
   const response = await csrfFetch(`/api/spots/${id}`, {
     method: "PUT",
-    body: JSON.stringify({ address, city, country, description, name, price, state, lat, lng }),
+    body: JSON.stringify({
+      address,
+      city,
+      country,
+      description,
+      name,
+      price,
+      state,
+      lat,
+      lng,
+    }),
   });
   const data = await response.json();
   dispatch(setSpot(data.spot));
@@ -103,29 +152,60 @@ const initialState = { allSpots: [], byId: {} };
 
 const spotsReducer = (state = initialState, action) => {
   let newState;
-  let newByIdGetAllSpots = {};
+  // switch (action.type) {
+  //   case GET_ALL_SPOTS: {
+  //     const spotsArr = action.spots.Spots;
+  //     newState = { ...state };
+  //     newState.allSpots = spotsArr;
+  //     for (let spot of spotsArr) {
+  //       newByIdGetAllSpots[spot.id] = spot;
+  //     }
+  //     newState.byId = newByIdGetAllSpots;
+  //     return newState;
+  //   }
+  //   case GET_SPOT_DETAILS: {
+  //     newState = { ...state };
+  //     newState.byId[action.spotDetails.id] = action.spotDetails;
+  //     return newState;
+  //   }
+
+  //   case CREATE_SPOT:
+  //     return { ...state, spot: action.payload };
+  //   case ADD_IMAGE:
+  //     return { ...state, spotImage: action.payload };
+  //   default:
+  //     return state;
+  // }
   switch (action.type) {
-    case GET_ALL_SPOTS:
+    case GET_ALL_SPOTS: {
+      const spotsArr = action.payload.Spots;
       newState = { ...state };
-      newState.allSpots = action.spots.Spots;
-      for (let spot of action.spots.Spots) {
+      newState.allSpots = spotsArr;
+      let newByIdGetAllSpots = {};
+      for (let spot of spotsArr) {
         newByIdGetAllSpots[spot.id] = spot;
       }
       newState.byId = newByIdGetAllSpots;
       return newState;
-    case LOAD_SPOT_DETAILS:
-        return {
-          ...state,
-          byId: {
-            ...state.byId,
-            [action.spotDetails.id]: action.spotDetails
-          }
-        };
-
-    case SET_SPOT:
-      return { ...state, spot: action.payload };
-    case SET_IMAGE:
-      return { ...state, spotImage: action.payload };
+    }
+    case GET_SPOT_DETAILS: {
+      newState = { ...state };
+      newState.allSpots = [action.payload];
+      newState.byId[action.payload.id] = action.payload;
+      return newState;
+    }
+    // case CREATE_SPOT: {
+    //   return;
+    // }
+    // case ADD_IMAGE: {
+    //   return;
+    // }
+    // case UPDATE_SPOT: {
+    //   return;
+    // }
+    // case DELETE_SPOT: {
+    //   return;
+    // }
     default:
       return state;
   }

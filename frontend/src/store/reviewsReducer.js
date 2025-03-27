@@ -1,5 +1,5 @@
 import { csrfFetch } from "./csrf";
-import { fetchSpotDetails } from "./spotsReducer";
+import { getSpotDetailsThunk } from "./spotsReducer";
 
 const SET_REVIEW = 'reviews/setReview';
 const DELETE_REVIEW = 'reviews/deleteReview';
@@ -15,7 +15,7 @@ export const createReview = (reviewForm, spotId) => async (dispatch) => {
     body: JSON.stringify({ ...reviewForm })
   });
   const data = await response.json();
-  dispatch(fetchSpotDetails(spotId))
+  dispatch(getSpotDetailsThunk(spotId))
   return data;
 };
 
@@ -26,7 +26,7 @@ export const deleteReview = (reviewId, spotId) => async (dispatch) => {
   if (response.ok) {
     dispatch({ type: DELETE_REVIEW, reviewId });
   }
-  dispatch(fetchSpotDetails(spotId))
+  dispatch(getSpotDetailsThunk(spotId))
   return response;
 };
 

@@ -1,7 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import './Spot.css'
 import { useDispatch } from 'react-redux';
-import { fetchSpotDetails } from '../../store/spotsReducer';
+import { getSpotDetailsThunk } from '../../store/spotsReducer';
 import { FaStar } from 'react-icons/fa';
 
 const Spot = ({ spot }) => {
@@ -10,7 +10,7 @@ const Spot = ({ spot }) => {
         <NavLink to={`/spots/${spot.id}`}>
             {/* <button id='spot' onClick={() => dispatch(fetchSpotDetails(spot.id))}> */}
 
-                <div onClick={() => dispatch(fetchSpotDetails(spot.id))}>
+                <div onClick={() => dispatch(getSpotDetailsThunk(spot.id))}>
                     {spot.previewImage ?
                     <img src={spot.previewImage} alt={spot.name} id="spot-img"/> :
                     <h4>No Preview Image</h4>}

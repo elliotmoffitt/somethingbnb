@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import './SpotDetails.css'
-import { fetchSpotDetails } from '../../store/spotsReducer';
+import { getSpotDetailsThunk } from '../../store/spotsReducer';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Reviews from '../Reviews/Reviews';
@@ -17,7 +17,7 @@ const SpotDetails = () => {
 
     useEffect(() => {
         const getSpotDetails = async () => {
-            await dispatch(fetchSpotDetails(params.spotId))
+            await dispatch(getSpotDetailsThunk(params.spotId))
             setIsLoaded(true)
         }
         if (!isLoaded) {
@@ -72,7 +72,7 @@ const SpotDetails = () => {
                         •
                         <h2>{spotDetails.numReviews === 1 ? <>1 review</> : <>{spotDetails.numReviews} reviews</>}</h2>
                     </div>
-                    <Reviews spotId={spotDetails.id} reviews={spotDetails.reviews} />
+                    {/* <Reviews spotId={spotDetails.id} reviews={spotDetails.reviews} /> */}
                     <br></br>
                 </div>
             </>

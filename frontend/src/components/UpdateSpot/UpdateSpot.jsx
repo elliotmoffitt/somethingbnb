@@ -2,7 +2,7 @@ import './UpdateSpot.css';
 
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchSpotDetails, updateSpot } from '../../store/spotsReducer';
+import { getSpotDetailsThunk, updateSpot } from '../../store/spotsReducer';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const UpdateSpot = () => {
@@ -77,7 +77,7 @@ const UpdateSpot = () => {
     }
     useEffect(() => {
         const getSpotDetails = async () => {
-            await dispatch(fetchSpotDetails(params.spotId))
+            await dispatch(getSpotDetailsThunk(params.spotId))
             setIsLoaded(true)
             setForm({...spotDetails})
         }
