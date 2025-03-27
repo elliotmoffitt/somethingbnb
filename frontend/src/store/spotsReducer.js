@@ -8,84 +8,100 @@ const UPDATE_SPOT = "spots/updateSpot";
 const ADD_IMAGE = "spots/addSpotImage";
 const DELETE_SPOT = "spots/deleteSpot";
 
-export const getAllSpots = (spots) => ({
+export const getAllSpotsAction = (spots) => ({
   type: GET_ALL_SPOTS,
   payload: spots,
 });
 
-export const getAllSpotsCurrent = (spots) => ({
+export const getAllSpotsCurrentAction = (spots) => ({
   type: GET_ALL_SPOTS_CURRENT,
-  spots,
+  payload: spots,
 });
 
-export const loadSpotDetails = (spotDetails) => ({
+export const getSpotDetailsAction = (spotDetails) => ({
   type: GET_SPOT_DETAILS,
   payload: spotDetails,
 });
 
-export const setSpot = (spot) => ({
+export const createSpotAction = (spot) => ({
   type: CREATE_SPOT,
   payload: spot,
 });
 
-export const setSpotImage = (images) => ({
+export const addImageAction = (images) => ({
   type: ADD_IMAGE,
   payload: images,
 });
 
 export const getSpotsThunk = () => async (dispatch) => {
   try {
-    const response = await csrfFetch("/api/spots/");
-    const spots = await response.json();
-    dispatch(getAllSpots(spots));
+    const res = await csrfFetch("/api/spots/");
+    if (res.ok) {
+      const data = await res.json();
+      dispatch(getAllSpotsAction(data));
+    } else {
+      throw res;
+    }
   } catch (e) {
     console.log(e);
   }
 };
 
 export const getSpotDetailsThunk = (spotId) => async (dispatch) => {
-  if (spotId) {
-    const response = await csrfFetch(`/api/spots/${spotId}`);
-    const spotDetails = await response.json();
-    dispatch(loadSpotDetails(spotDetails));
-    return spotDetails;
+  try {
+    if (spotId) {
+      const res = await csrfFetch(`/api/spots/${spotId}`);
+      if (res.ok) {
+        const data = await res.json();
+        dispatch(getSpotDetailsAction(data));
+        return data;
+      } else {
+        throw res;
+      }
+    }
+  } catch (e) {
+    console.log(e);
   }
 };
 
 export const getSpotsCurrent = (userId) => async (dispatch) => {
-  if (userId) {
-    const response = await csrfFetch(`/api/spots/${userId}`);
-    dispatch(loadSpotDetails(response));
-    return response;
+  try {
+    if (userId) {
+      const res = await csrfFetch(`/api/spots/${userId}`);
+      if (res.ok) {
+        dispatch(getSpotDetailsAction(res));
+        return res;
+      } else {
+        throw res;
+      }
+    }
+  } catch (e) {
+    console.log(e);
   }
 };
 
 export const addImage = (spotImage, spotId) => async (dispatch) => {
-  const response = await csrfFetch(`/api/spots/${spotId}/images/`, {
-    method: "POST",
-    body: JSON.stringify({ ...spotImage }),
-  });
-  const data = await response.json();
-  dispatch(setSpotImage(data));
-  return response;
+  try {
+    const res = await csrfFetch(`/api/spots/${spotId}/images/`, {
+      method: "POST",
+      body: JSON.stringify({ ...spotImage }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      dispatch(addImageAction(data));
+      return res;
+    } else {
+      throw res;
+    }
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-export const createSpot = (spot) => async (dispatch) => {
-  const {
-    spotImages,
-    address,
-    city,
-    country,
-    description,
-    name,
-    price,
-    state,
-    lat,
-    lng,
-  } = spot;
-  const response = await csrfFetch("/api/spots/", {
-    method: "POST",
-    body: JSON.stringify({
+export const createSpotThunk = (spot) => async (dispatch) => {
+  try {
+    const {
+      spotImages,
       address,
       city,
       country,
@@ -95,33 +111,43 @@ export const createSpot = (spot) => async (dispatch) => {
       state,
       lat,
       lng,
-    }),
-  });
-  const data = await response.json();
-  dispatch(setSpot(data.spot));
-  for (let spotImage of spotImages) {
-    await dispatch(addImage(spotImage, data.id));
+    } = spot;
+    const res = await csrfFetch("/api/spots/", {
+      method: "POST",
+      body: JSON.stringify({
+        address,
+        city,
+        country,
+        description,
+        name,
+        price,
+        state,
+        lat,
+        lng,
+      }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      dispatch(createSpotAction(data));
+      for (let spotImage of spotImages) {
+        await dispatch(addImage(spotImage, data.id));
+      }
+      console.log(data, 'HEREEEEEEEEEEEEEEEEEEE')
+      return data;
+    } else {
+      console.log('RES THROWNNNNNNNNNNNNNN')
+      throw res;
+    }
+  } catch (e) {
+    console.log(e);
   }
-  return data;
 };
 
 export const updateSpot = (spot) => async (dispatch) => {
-  const {
-    spotImages,
-    address,
-    city,
-    country,
-    description,
-    name,
-    price,
-    state,
-    lat,
-    lng,
-    id,
-  } = spot;
-  const response = await csrfFetch(`/api/spots/${id}`, {
-    method: "PUT",
-    body: JSON.stringify({
+  try {
+
+    const {
+      spotImages,
       address,
       city,
       country,
@@ -131,21 +157,52 @@ export const updateSpot = (spot) => async (dispatch) => {
       state,
       lat,
       lng,
-    }),
-  });
-  const data = await response.json();
-  dispatch(setSpot(data.spot));
-  for (let spotImage of spotImages) {
-    await dispatch(addImage(spotImage, data.id));
+      id,
+    } = spot;
+    const res = await csrfFetch(`/api/spots/${id}`, {
+      method: "PUT",
+      body: JSON.stringify({
+        address,
+        city,
+        country,
+        description,
+        name,
+        price,
+        state,
+        lat,
+        lng,
+      }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      dispatch(createSpotAction(data.spot));
+      for (let spotImage of spotImages) {
+        await dispatch(addImage(spotImage, data.id));
+      }
+      return res;
+    } else {
+      throw res;
+    }
+  } catch (e) {
+    console.log(e);
   }
-  return response;
 };
 
 export const deleteSpot = (spotId) => async () => {
-  const response = await csrfFetch(`/api/spots/${spotId}`, {
-    method: "DELETE",
-  });
-  return response;
+  try {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
+      method: "DELETE",
+    });
+    console.log(res)
+    if (res.ok) {
+      await dispatch(getSpotsThunk());
+      return res;
+    } else {
+      throw res
+    };
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 const initialState = { allSpots: [], byId: {} };
@@ -194,18 +251,18 @@ const spotsReducer = (state = initialState, action) => {
       newState.byId[action.payload.id] = action.payload;
       return newState;
     }
-    // case CREATE_SPOT: {
-    //   return;
-    // }
-    // case ADD_IMAGE: {
-    //   return;
-    // }
+    case CREATE_SPOT: {
+      newState = { ...state };
+      newState.allSpots = [action.payload];
+      newState.byId[action.payload.id] = action.payload;
+      return newState;
+    }
     // case UPDATE_SPOT: {
     //   return;
     // }
-    // case DELETE_SPOT: {
-    //   return;
-    // }
+    case DELETE_SPOT: {
+      return;
+    }
     default:
       return state;
   }

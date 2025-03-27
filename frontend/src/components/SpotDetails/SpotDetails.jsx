@@ -10,8 +10,6 @@ const SpotDetails = () => {
     const dispatch = useDispatch();
     const params = useParams();
     const spotDetails = useSelector(state => state.spots.byId[params.spotId]);
-
-
     const [isLoaded, setIsLoaded] = useState(false);
 
 
@@ -24,9 +22,9 @@ const SpotDetails = () => {
             getSpotDetails();
         }
 
-    }, [dispatch, params.spotId]);
+    }, [dispatch]);
 
-    if (isLoaded && spotDetails) {
+    if (isLoaded) {
         return (
             <>
                 <div id='spot-details'>
@@ -72,7 +70,7 @@ const SpotDetails = () => {
                         •
                         <h2>{spotDetails.numReviews === 1 ? <>1 review</> : <>{spotDetails.numReviews} reviews</>}</h2>
                     </div>
-                    {/* <Reviews spotId={spotDetails.id} reviews={spotDetails.reviews} /> */}
+                    <Reviews spotId={spotDetails.id} reviews={spotDetails.reviews} />
                     <br></br>
                 </div>
             </>

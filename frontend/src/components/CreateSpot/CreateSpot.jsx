@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import './CreateSpot.css';
-import { createSpot } from '../../store/spotsReducer';
+import { createSpotThunk } from '../../store/spotsReducer';
 
 const CreateSpot = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const newSpotId = useSelector(state => state.spots.allSpots[0].id);
     const [previewDisabled, setPreviewDisabled] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
-    // const [disabled, setDisabled] = useState();
     const [previewImage, setPreviewImage] = useState('');
     const [secondImage, setSecondImage] = useState('');
     const [thirdImage, setThirdImage] = useState('');
@@ -71,8 +71,9 @@ const CreateSpot = () => {
         fourthImage.length ? spotImages.push({ 'url': fourthImage, 'preview': false }) : null
         fifthImage.length ? spotImages.push({ 'url': fifthImage, 'preview': false }) : null
         setSubmitted(true);
-        let data = await dispatch(createSpot({ spotImages, ...form }))
-        navigate(`/spots/${data.id}`)
+        await dispatch(createSpotThunk({ spotImages, ...form }))
+        navigate(`/spots/${newSpotId}`)
+        console.log(newSpotId)
     }
     useEffect(() => {
         setIsLoaded(true);
