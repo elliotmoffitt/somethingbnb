@@ -7,7 +7,7 @@ import AllSpots from './components/Spots/AllSpots';
 import SpotDetails from './components/Spots/SpotDetails/SpotDetails';
 import UpdateSpotForm from './components/Spots/UpdateSpot/UpdateSpotForm';
 import CreateSpotForm from './components/Spots/CreateSpot/CreateSpotForm';
-import CurrentUserSpots from './components/CurrentUserSpots';
+import CurrentUserSpots from './components/Spots/CurrentUserSpots';
 
 function Layout() {
   const dispatch = useDispatch();

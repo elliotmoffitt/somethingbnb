@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import './CurrentUserSpots.css'
 import { useSelector, useDispatch } from 'react-redux';
-import { getSpotsThunk } from '../../store/spotsReducer';
-import SpotCard from '../Spots/SpotCard';
-import UpdateSpotButton from '../Spots/UpdateSpot/UpdateSpotButton';
-import DeleteSpot from '../Spots/DeleteSpot/DeleteSpotButton';
+import { getSpotsThunk } from '../../../store/spotsReducer';
+import SpotCard from '../SpotCard';
+import UpdateSpotButton from '../UpdateSpot/UpdateSpotButton';
+import DeleteSpot from '../DeleteSpot/DeleteSpotButton';
 
 const CurrentUserSpots = () => {
     const dispatch = useDispatch();

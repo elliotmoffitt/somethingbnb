@@ -22,7 +22,7 @@ const SpotDetails = () => {
             getSpotDetails();
         }
 
-    }, [dispatch]);
+    }, [dispatch, isLoaded, params.spotId]);
 
     if (isLoaded) {
         return (
