@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import './CreateReviewModal.css';
 import { FaStar, FaRegStar } from 'react-icons/fa';
-import { createReview } from '../../store/reviewsReducer';
+import { createReviewThunk } from '../../store/reviewsReducer';
 import { useDispatch } from 'react-redux';
 import { useModal } from '../../context/Modal';
 
@@ -30,7 +30,7 @@ const CreateReviewModal = ({ spotId }) => {
     }
 
     const handleSubmit = () => {
-        dispatch(createReview({ stars, review }, spotId))
+        dispatch(createReviewThunk({ stars, review }, spotId))
             .then(closeModal)
     }
 

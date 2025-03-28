@@ -1,13 +1,12 @@
 import './DeleteSpotModal.css';
 import { useDispatch } from 'react-redux';
-import { deleteSpot, getSpotsThunk } from '../../../store/spotsReducer';
+import { deleteSpot } from '../../../store/spotsReducer';
 
 const DeleteSpotModal = ({ closeModal, spot }) => {
     const dispatch = useDispatch();
 
     const onDeleteSpot = async () => {
         await dispatch(deleteSpot(spot.id))
-        await dispatch(getSpotsThunk())
         closeModal()
     }
     return (

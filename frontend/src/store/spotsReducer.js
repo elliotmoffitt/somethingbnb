@@ -191,7 +191,7 @@ export const updateSpot = (spot) => async (dispatch) => {
   }
 };
 
-export const deleteSpot = (spotId) => async () => {
+export const deleteSpot = (spotId) => async (dispatch) => {
   try {
     const res = await csrfFetch(`/api/spots/${spotId}`, {
       method: "DELETE",
@@ -202,7 +202,7 @@ export const deleteSpot = (spotId) => async () => {
       return res;
     } else {
       throw res
-    };
+    }
   } catch (e) {
     console.log(e);
   }
