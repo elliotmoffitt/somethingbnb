@@ -7,7 +7,7 @@ import { createSpotThunk } from '../../store/spotsReducer';
 const CreateSpot = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const newSpotId = useSelector(state => state.spots.allSpots[0].id);
+    // const newSpotId = useSelector(state => state.spots.allSpots[1].id);
     const [previewDisabled, setPreviewDisabled] = useState(true);
     const [isLoaded, setIsLoaded] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
@@ -71,9 +71,8 @@ const CreateSpot = () => {
         fourthImage.length ? spotImages.push({ 'url': fourthImage, 'preview': false }) : null
         fifthImage.length ? spotImages.push({ 'url': fifthImage, 'preview': false }) : null
         setSubmitted(true);
-        await dispatch(createSpotThunk({ spotImages, ...form }))
-        navigate(`/spots/${newSpotId}`)
-        console.log(newSpotId)
+        let newSpot = await dispatch(createSpotThunk({ spotImages, ...form }))
+        navigate(`/spots/${newSpot.id}`)
     }
     useEffect(() => {
         setIsLoaded(true);

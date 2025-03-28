@@ -28,6 +28,11 @@ export const createSpotAction = (spot) => ({
   payload: spot,
 });
 
+export const updateSpotAction = (spot) => ({
+  type: UPDATE_SPOT,
+  payload: spot,
+});
+
 export const addImageAction = (images) => ({
   type: ADD_IMAGE,
   payload: images,
@@ -132,10 +137,8 @@ export const createSpotThunk = (spot) => async (dispatch) => {
       for (let spotImage of spotImages) {
         await dispatch(addImage(spotImage, data.id));
       }
-      console.log(data, 'HEREEEEEEEEEEEEEEEEEEE')
       return data;
     } else {
-      console.log('RES THROWNNNNNNNNNNNNNN')
       throw res;
     }
   } catch (e) {
@@ -175,7 +178,7 @@ export const updateSpot = (spot) => async (dispatch) => {
     });
     if (res.ok) {
       const data = await res.json();
-      dispatch(createSpotAction(data.spot));
+      dispatch(updateSpot(data.spot));
       for (let spotImage of spotImages) {
         await dispatch(addImage(spotImage, data.id));
       }
@@ -209,30 +212,6 @@ const initialState = { allSpots: [], byId: {} };
 
 const spotsReducer = (state = initialState, action) => {
   let newState;
-  // switch (action.type) {
-  //   case GET_ALL_SPOTS: {
-  //     const spotsArr = action.spots.Spots;
-  //     newState = { ...state };
-  //     newState.allSpots = spotsArr;
-  //     for (let spot of spotsArr) {
-  //       newByIdGetAllSpots[spot.id] = spot;
-  //     }
-  //     newState.byId = newByIdGetAllSpots;
-  //     return newState;
-  //   }
-  //   case GET_SPOT_DETAILS: {
-  //     newState = { ...state };
-  //     newState.byId[action.spotDetails.id] = action.spotDetails;
-  //     return newState;
-  //   }
-
-  //   case CREATE_SPOT:
-  //     return { ...state, spot: action.payload };
-  //   case ADD_IMAGE:
-  //     return { ...state, spotImage: action.payload };
-  //   default:
-  //     return state;
-  // }
   switch (action.type) {
     case GET_ALL_SPOTS: {
       const spotsArr = action.payload.Spots;
@@ -257,9 +236,12 @@ const spotsReducer = (state = initialState, action) => {
       newState.byId[action.payload.id] = action.payload;
       return newState;
     }
-    // case UPDATE_SPOT: {
-    //   return;
-    // }
+    case UPDATE_SPOT: {
+      newState = { ...state };
+      newState.allSpots = [action.payload];
+      newState.byId[action.payload.id] = action.payload;
+      return newState;
+    }
     case DELETE_SPOT: {
       return;
     }
