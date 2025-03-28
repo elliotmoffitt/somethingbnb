@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import './CreateSpot.css';
-import { createSpotThunk } from '../../store/spotsReducer';
+import './CreateSpotForm.css';
+import { createSpotThunk } from '../../../../store/spotsReducer';
 
-const CreateSpot = () => {
+const CreateSpotForm = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     // const newSpotId = useSelector(state => state.spots.allSpots[1].id);
@@ -163,4 +163,4 @@ const CreateSpot = () => {
     else return <h1>Loading...</h1>
 }
 
-export default CreateSpot;
+export default CreateSpotForm;

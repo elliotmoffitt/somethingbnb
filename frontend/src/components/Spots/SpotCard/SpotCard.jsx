@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom';
-import './Spot.css'
+import './SpotCard.css'
 import { useDispatch } from 'react-redux';
-import { getSpotDetailsThunk } from '../../store/spotsReducer';
+import { getSpotDetailsThunk } from '../../../store/spotsReducer';
 import { FaStar } from 'react-icons/fa';
 
-const Spot = ({ spot }) => {
+const SpotCard = ({ spot }) => {
     const dispatch = useDispatch();
     return (
         <NavLink to={`/spots/${spot.id}`}>
@@ -29,4 +29,4 @@ const Spot = ({ spot }) => {
     );
 }
 
-export default Spot;
+export default SpotCard;

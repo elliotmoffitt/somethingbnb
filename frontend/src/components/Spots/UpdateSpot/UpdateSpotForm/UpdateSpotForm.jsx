@@ -1,11 +1,11 @@
-import './UpdateSpot.css';
+import './UpdateSpotForm.css';
 
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getSpotDetailsThunk, updateSpot } from '../../store/spotsReducer';
+import { getSpotDetailsThunk, updateSpot } from '../../../../store/spotsReducer';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const UpdateSpot = () => {
+const UpdateSpotForm = () => {
     const dispatch = useDispatch();
     const params = useParams();
     const navigate = useNavigate();
@@ -177,4 +177,4 @@ const UpdateSpot = () => {
     else return <h1>Loading...</h1>
 }
 
-export default UpdateSpot;
+export default UpdateSpotForm;

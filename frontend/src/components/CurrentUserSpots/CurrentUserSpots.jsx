@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import './CurrentUserSpots.css'
 import { useSelector, useDispatch } from 'react-redux';
 import { getSpotsThunk } from '../../store/spotsReducer';
-import Spot from '../Spot';
-import UpdateSpotButton from '../Spots/UpdateSpotButton';
-import DeleteSpot from '../Spots/DeleteSpot';
+import SpotCard from '../Spots/SpotCard';
+import UpdateSpotButton from '../Spots/UpdateSpot/UpdateSpotButton';
+import DeleteSpot from '../Spots/DeleteSpot/DeleteSpotButton';
 
 const CurrentUserSpots = () => {
     const dispatch = useDispatch();
@@ -30,13 +30,13 @@ const CurrentUserSpots = () => {
                     {spots && spots.length ? spots.map((spot, i) => {
                         return (
                             <div key={`${i}-${spot.name}`}>
-                            <div id='tooltip'>
-                                <Spot spot={spot} />
-                                <span id='tooltip-text'>{spot.name}</span>
+                                <div id='tooltip'>
+                                    <SpotCard spot={spot} />
+                                    <span id='tooltip-text'>{spot.name}</span>
+                                </div>
+                                {sessionUser ? sessionUser.id === spot.ownerId && <UpdateSpotButton spot={spot} /> : ""}
+                                {sessionUser ? sessionUser.id === spot.ownerId && <DeleteSpot spot={spot} /> : ""}
                             </div>
-                            {sessionUser ? sessionUser.id === spot.ownerId && <UpdateSpotButton spot={spot} /> : ""}
-                            {sessionUser ? sessionUser.id === spot.ownerId && <DeleteSpot spot={spot} /> : ""}
-                        </div>
                         )
                     }) : <h1>No Spots Found</h1>}
                 </div>

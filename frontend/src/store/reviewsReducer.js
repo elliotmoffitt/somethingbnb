@@ -49,14 +49,14 @@ export const deleteReviewThunk = (reviewId, spotId) => async (dispatch) => {
   }
 };
 
-const initialState = { allReviews: [], byId: {} };
+const initialState = { allReviews: [] };
 
 const reviewsReducer = (state = initialState, action) => {
   switch (action.type) {
     case DELETE_REVIEW:
       return { ...state, allReviews: state.allReviews.filter(review => review.id !== action.reviewId) };
     case CREATE_REVIEW:
-      return { ...state, review: action.payload };
+      return { ...state, allReviews: action.payload };
     default:
       return state;
   }

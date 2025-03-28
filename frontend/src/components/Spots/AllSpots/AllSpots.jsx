@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import './Spots.css'
+import './AllSpots.css'
 import { useSelector, useDispatch } from 'react-redux';
-import { getSpotsThunk } from '../../store/spotsReducer';
-import Spot from '../Spot';
-import UpdateSpotButton from './UpdateSpotButton';
-import DeleteSpot from './DeleteSpot';
+import { getSpotsThunk } from '../../../store/spotsReducer';
+import SpotCard from '../SpotCard';
+import UpdateSpotButton from '../UpdateSpot/UpdateSpotButton';
+import DeleteSpot from '../DeleteSpot/DeleteSpotButton';
 
-const Spots = () => {
+const AllSpots = () => {
     const dispatch = useDispatch();
     const spots = useSelector(state => state.spots.allSpots);
 
@@ -31,7 +31,7 @@ const Spots = () => {
                         return (
                             <div key={`${i}-${spot.name}`}>
                                 <div id='tooltip'>
-                                    <Spot spot={spot} />
+                                    <SpotCard spot={spot} />
                                     <span id='tooltip-text'>{spot.name}</span>
                                 </div>
                                 {sessionUser ? sessionUser.id === spot.ownerId && <UpdateSpotButton spot={spot} /> : ""}
@@ -46,4 +46,4 @@ const Spots = () => {
     else return <h1>Loading...</h1>
 }
 
-export default Spots;
+export default AllSpots;

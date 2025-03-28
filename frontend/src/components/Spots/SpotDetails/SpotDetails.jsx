@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import './SpotDetails.css'
-import { getSpotDetailsThunk } from '../../store/spotsReducer';
+import { getSpotDetailsThunk } from '../../../store/spotsReducer';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import Reviews from '../Reviews/Reviews';
+import Reviews from '../../Reviews/Reviews';
 import { FaStar } from 'react-icons/fa';
 
 const SpotDetails = () => {

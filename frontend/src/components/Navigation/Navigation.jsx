@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 import somethingbnb from '../../assets/somethingbnb.png'
-import CreateSpotButton from './CreateSpotButton';
+import CreateSpotButton from '../Spots/CreateSpot/CreateSpotButtom';
 
 
 function Navigation({ isLoaded }) {
