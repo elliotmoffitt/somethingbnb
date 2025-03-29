@@ -14,12 +14,10 @@ const SpotDetails = () => {
 
 
     useEffect(() => {
-        const getSpotDetails = async () => {
-            await dispatch(getSpotDetailsThunk(params.spotId))
-            setIsLoaded(true)
-        }
-        if (!isLoaded) {
-            getSpotDetails();
+        if (!spotDetails) {
+            dispatch(getSpotDetailsThunk(params.spotId)).then(() => setIsLoaded(true));
+        } else {
+            setIsLoaded(true);
         }
 
     }, [dispatch, isLoaded, params.spotId]);
@@ -69,7 +67,7 @@ const SpotDetails = () => {
                         <h2>{spotDetails.numReviews ? <><FaStar />{spotDetails.avgStarRating} • </> : ""}</h2>
                         <h2>{spotDetails.numReviews === 1 ? <>1 review</> : <>{spotDetails.numReviews} reviews</>}</h2>
                     </div>
-                    <Reviews spotId={spotDetails.id} reviews={spotDetails.reviews} />
+                    {/* <Reviews spotId={spotDetails.id} reviews={spotDetails.reviews} /> */}
                     <br></br>
                 </div>
             </>

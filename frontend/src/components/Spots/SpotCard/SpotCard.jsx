@@ -10,7 +10,7 @@ const SpotCard = ({ spot }) => {
         <NavLink to={`/spots/${spot.id}`}>
             {/* <button id='spot' onClick={() => dispatch(fetchSpotDetails(spot.id))}> */}
 
-            <div onClick={() => dispatch(getSpotDetailsThunk(spot.id))}>
+            <div>
                 {spot.previewImage ?
                     <img src={spot.previewImage} alt={spot.name} id="spot-img" /> :
                     <h4>No Preview Image</h4>}
