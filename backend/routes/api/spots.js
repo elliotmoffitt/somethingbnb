@@ -82,13 +82,26 @@ router.get("/", async (req, res, next) => {
       limit: size,
       offset: size * (page - 1),
     });
-    const formattedSpots = allSpots.map((spot) => {
-      const totalStars = spot.Reviews.reduce(
-        (sum, review) => sum + review.stars,
-        0
-      );
-      const avgRating =
-        spot.Reviews.length > 0 ? totalStars / spot.Reviews.length : null;
+    const formattedSpots = allSpots.map(async (spot) => {
+      // const totalStars = spot.Reviews.reduce(
+      //   (sum, review) => sum + review.star
+      //   0
+      // );
+      const oneSpotReviews = await Review.findAll({
+        where: {
+          spotId: spot.id,
+        },
+        include: [
+          { model: User, attributes: ["id", "firstName", "lastName"] },
+          { model: ReviewImage },
+        ],
+      });
+      let accumulator = 0;
+      oneSpotReviews.forEach((element) => {
+        accumulator += Number(element.stars);
+      });
+      let avgReviewRating = Math.floor(accumulator / oneSpotReviews.length);
+
       const previewImage =
         spot.SpotImages.find((image) => image.preview)?.url || null;
 
@@ -106,8 +119,9 @@ router.get("/", async (req, res, next) => {
         price: spot.price,
         createdAt: spot.createdAt,
         updatedAt: spot.updatedAt,
-        avgRating,
+        avgReviewRating,
         previewImage,
+        reviews: oneSpotReviews
       };
     });
 
