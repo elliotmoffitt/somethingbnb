@@ -72,10 +72,11 @@ export const getSpotDetailsThunk = (spotId) => async (dispatch) => {
 export const getSpotsCurrent = (userId) => async (dispatch) => {
   try {
     if (userId) {
-      const res = await csrfFetch(`/api/spots/${userId}`);
+      const res = await csrfFetch('/api/spots/current');
       if (res.ok) {
-        dispatch(getSpotDetailsAction(res));
-        return res;
+        const data = await res.json();
+        await dispatch(getAllSpotsCurrentAction(data));
+        return data;
       } else {
         throw res;
       }
@@ -216,6 +217,18 @@ const spotsReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_SPOTS: {
       const spotsArr = action.payload.Spots;
+      newState = { ...state };
+      newState.allSpots = spotsArr;
+      let newByIdGetAllSpots = {};
+      for (let spot of spotsArr) {
+        newByIdGetAllSpots[spot.id] = spot;
+      }
+      newState.byId = newByIdGetAllSpots;
+      return newState;
+    }
+    case GET_ALL_SPOTS_CURRENT: {
+      console.log(action.payload, 'HEREHEHRRHERER')
+      const spotsArr = action.payload;
       newState = { ...state };
       newState.allSpots = spotsArr;
       let newByIdGetAllSpots = {};
