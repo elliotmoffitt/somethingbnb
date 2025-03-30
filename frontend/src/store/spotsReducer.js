@@ -137,6 +137,7 @@ export const createSpotThunk = (spot) => async (dispatch) => {
       for (let spotImage of spotImages) {
         await (addImage(spotImage, data.id))
       }
+      data.SpotImages.push(...spotImages)
       return data;
     } else {
       throw res;
