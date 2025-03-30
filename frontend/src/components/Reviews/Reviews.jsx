@@ -21,11 +21,14 @@ const Reviews = ({ spotId, reviews }) => {
     };
 
     useEffect(() => {
-        for (let review of reviews) {
-            if (sessionUser && sessionUser.id === review.userId) {
-                setUserCreatedReview(true);
+        if (reviews && reviews.length) {
+
+            for (let review of reviews) {
+                if (sessionUser && sessionUser.id === review.userId) {
+                    setUserCreatedReview(true);
+                }
+                else setUserCreatedReview(false);
             }
-            else setUserCreatedReview(false);
         }
     }, [reviews, sessionUser])
 
@@ -34,7 +37,7 @@ const Reviews = ({ spotId, reviews }) => {
         if (!showMenu) return;
 
         const closeMenu = (e) => {
-            if (!ulRef.current.contains(e.target)) {
+            if (!ulRef.current?.contains(e.target)) {
                 setShowMenu(false);
             }
         };

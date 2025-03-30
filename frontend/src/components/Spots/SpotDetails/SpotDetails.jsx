@@ -31,7 +31,7 @@ const SpotDetails = () => {
                         <h3>{spotDetails.city}, {spotDetails.state}, {spotDetails.country}</h3>
                         <div id='all-images-container'>
                             <div id='first-image-container'>
-                                <img src={spotDetails.SpotImages ? spotDetails.SpotImages[0].url : ''} id='first-image' />
+                                <img src={spotDetails.previewImage ? spotDetails.previewImage.url : ''} id='first-image' />
                             </div>
                             <div>
                                 <div id='images-container'>

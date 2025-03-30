@@ -315,6 +315,7 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
 
     const ownerId = req.user.id;
 
+
     const spot = await Spot.create({
       ownerId,
       address,
@@ -328,20 +329,65 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
       price,
     });
 
+    let accumulator = 0;
+      const oneSpotReviews = await Review.findAll({
+        where: {
+          spotId: spot.id,
+        },
+        include: [
+          { model: User, attributes: ["id", "firstName", "lastName"] },
+          { model: ReviewImage },
+        ],
+      });
+      oneSpotReviews.forEach((element) => {
+        accumulator += Number(element.stars);
+      });
+      let avgReviewRating = Math.floor(accumulator / oneSpotReviews.length);
+
+      const oneSpot = await Spot.findOne({
+        where: {
+          id: spot.id,
+        },
+        include: [
+          {
+            model: SpotImage,
+          },
+          {
+            model: User,
+            as: "Owner",
+            attributes: ["id", "firstName", "lastName"],
+          },
+        ],
+      });
+
+      if (!oneSpot) {
+        return res.status(404).json({ message: "Spot couldn't be found" });
+      }
+
+      let numReviews = oneSpotReviews.length;
+      let spotData = oneSpot.toJSON();
+      spotData.numReviews = numReviews;
+      spotData.avgStarRating = avgReviewRating;
+
     return res.status(201).json({
-      id: spot.id,
-      ownerId: ownerId,
-      address: address,
-      city: city,
-      state: state,
-      country: country,
-      lat: lat,
-      lng: lng,
-      name: name,
-      description: description,
-      price: price,
-      createdAt: spot.createdAt,
-      updatedAt: spot.updatedAt,
+      id: spotData.id,
+      ownerId: spotData.ownerId,
+      address: spotData.address,
+      city: spotData.city,
+      state: spotData.state,
+      country: spotData.country,
+      lat: spotData.lat,
+      lng: spotData.lng,
+      name: spotData.name,
+      description: spotData.description,
+      price: spotData.price,
+      createdAt: spotData.createdAt,
+      updatedAt: spotData.updatedAt,
+      numReviews: numReviews,
+      avgStarRating: avgReviewRating,
+      SpotImages: spotData.SpotImages,
+      Owner: spotData.Owner,
+      reviews: oneSpotReviews
     });
   } catch (e) {
     next(e);

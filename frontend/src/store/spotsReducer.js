@@ -85,7 +85,8 @@ export const getSpotsCurrent = (userId) => async (dispatch) => {
   }
 };
 
-export const addImage = (spotImage, spotId) => async (dispatch) => {
+export const addImage = async (spotImage, spotId) =>  {
+  console.log('made it here')
   try {
     const res = await csrfFetch(`/api/spots/${spotId}/images/`, {
       method: "POST",
@@ -93,8 +94,7 @@ export const addImage = (spotImage, spotId) => async (dispatch) => {
     });
     if (res.ok) {
       const data = await res.json();
-      dispatch(addImageAction(data));
-      return res;
+      return data;
     } else {
       throw res;
     }
@@ -133,9 +133,9 @@ export const createSpotThunk = (spot) => async (dispatch) => {
     });
     if (res.ok) {
       const data = await res.json();
-      dispatch(createSpotAction(data));
+      await dispatch(createSpotAction(data));
       for (let spotImage of spotImages) {
-        await dispatch(addImage(spotImage, data.id));
+        await (addImage(spotImage, data.id))
       }
       return data;
     } else {
