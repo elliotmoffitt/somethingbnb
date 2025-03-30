@@ -69,9 +69,8 @@ export const getSpotDetailsThunk = (spotId) => async (dispatch) => {
   }
 };
 
-export const getSpotsCurrent = (userId) => async (dispatch) => {
+export const getSpotsCurrent = () => async (dispatch) => {
   try {
-    if (userId) {
       const res = await csrfFetch('/api/spots/current');
       if (res.ok) {
         const data = await res.json();
@@ -80,14 +79,12 @@ export const getSpotsCurrent = (userId) => async (dispatch) => {
       } else {
         throw res;
       }
-    }
   } catch (e) {
     console.log(e);
   }
 };
 
 export const addImage = async (spotImage, spotId) =>  {
-  console.log('made it here')
   try {
     const res = await csrfFetch(`/api/spots/${spotId}/images/`, {
       method: "POST",
@@ -227,8 +224,7 @@ const spotsReducer = (state = initialState, action) => {
       return newState;
     }
     case GET_ALL_SPOTS_CURRENT: {
-      console.log(action.payload, 'HEREHEHRRHERER')
-      const spotsArr = action.payload;
+      const spotsArr = action.payload.Spots;
       newState = { ...state };
       newState.allSpots = spotsArr;
       let newByIdGetAllSpots = {};

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaUserCircle, FaBars } from 'react-icons/fa';
 import * as sessionActions from '../../store/session';
 import OpenModalMenuItem from './OpenModalMenuItem';
@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const spots = useSelector(state => state.spots.allSpots);
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 

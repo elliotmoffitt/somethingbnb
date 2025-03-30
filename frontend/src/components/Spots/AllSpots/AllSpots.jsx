@@ -9,7 +9,6 @@ import DeleteSpot from '../DeleteSpot/DeleteSpotButton';
 const AllSpots = () => {
     const dispatch = useDispatch();
     const spots = useSelector(state => state.spots.allSpots);
-
     const sessionUser = useSelector(state => state.session.user);
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {

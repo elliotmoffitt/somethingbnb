@@ -15,7 +15,7 @@ const CurrentUserSpots = () => {
     const [isLoaded, setIsLoaded] = useState(false);
     useEffect(() => {
         const getSpots = async () => {
-            await dispatch(getSpotsCurrent(sessionUser.id));
+            await dispatch(getSpotsCurrent());
             setIsLoaded(true)
         }
         if (!isLoaded) {
