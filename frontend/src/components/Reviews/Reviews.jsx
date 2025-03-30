@@ -21,14 +21,11 @@ const Reviews = ({ spotId, reviews }) => {
     };
 
     useEffect(() => {
-        if (reviews && reviews.length) {
-
-            for (let review of reviews) {
-                if (sessionUser && sessionUser.id === review.userId) {
-                    setUserCreatedReview(true);
-                }
-                else setUserCreatedReview(false);
+        for (let review of reviews) {
+            if (sessionUser && sessionUser.id === review.userId) {
+                setUserCreatedReview(true);
             }
+            else setUserCreatedReview(false);
         }
     }, [reviews, sessionUser])
 
