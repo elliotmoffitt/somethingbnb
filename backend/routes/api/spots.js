@@ -54,6 +54,83 @@ const validateSpotId = (req, res, next) => {
   next();
 };
 
+// router.get("/", async (req, res, next) => {
+//   try {
+//     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
+//       req.query;
+
+//     page = parseInt(page);
+//     size = parseInt(size);
+
+//     if (Number.isNaN(page) || !page) page = 1;
+//     if (Number.isNaN(size) || !size) size = 20;
+
+//     // if (page < 1 || page > 10) {
+//     //   return res
+//     //     .status(404)
+//     //     .json({ message: "Page must be greater than or equal to 1" });
+//     // }
+
+//     // if (size < 1 || size > 10) {
+//     //   return res
+//     //     .status(404)
+//     //     .json({ message: "Size must be greater than or equal to 1" });
+//     // }
+
+//     const allSpots = await Spot.findAll({
+//       include: [{ model: Review }, { model: SpotImage }],
+//       limit: size,
+//       offset: size * (page - 1),
+//     });
+//     const formattedSpots = allSpots.map(async (spot) => {
+//       // const totalStars = spot.Reviews.reduce(
+//       //   (sum, review) => sum + review.star
+//       //   0
+//       // );
+//       const oneSpotReviews = await Review.findAll({
+//         where: {
+//           spotId: spot.id,
+//         },
+//         include: [
+//           { model: User, attributes: ["id", "firstName", "lastName"] },
+//           { model: ReviewImage },
+//         ],
+//       });
+//       let accumulator = 0;
+//       oneSpotReviews.forEach((element) => {
+//         accumulator += Number(element.stars);
+//       });
+//       let avgReviewRating = Math.floor(accumulator / oneSpotReviews.length);
+
+//       const previewImage =
+//         spot.SpotImages.find((image) => image.preview)?.url || null;
+
+//       return {
+//         id: spot.id,
+//         ownerId: spot.ownerId,
+//         address: spot.address,
+//         city: spot.city,
+//         state: spot.state,
+//         country: spot.country,
+//         lat: spot.lat,
+//         lng: spot.lng,
+//         name: spot.name,
+//         description: spot.description,
+//         price: spot.price,
+//         createdAt: spot.createdAt,
+//         updatedAt: spot.updatedAt,
+//         avgReviewRating,
+//         previewImage,
+//         reviews: oneSpotReviews
+//       };
+//     });
+
+//     res.json({ Spots: formattedSpots });
+//   } catch (e) {
+//     next(e);
+//   }
+// });
+
 router.get("/", async (req, res, next) => {
   try {
     let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
@@ -82,30 +159,44 @@ router.get("/", async (req, res, next) => {
       limit: size,
       offset: size * (page - 1),
     });
-    const formattedSpots = allSpots.map(async (spot) => {
-      // const totalStars = spot.Reviews.reduce(
-      //   (sum, review) => sum + review.star
-      //   0
-      // );
-      const oneSpotReviews = await Review.findAll({
-        where: {
-          spotId: spot.id,
-        },
-        include: [
-          { model: User, attributes: ["id", "firstName", "lastName"] },
-          { model: ReviewImage },
-        ],
-      });
-      let accumulator = 0;
-      oneSpotReviews.forEach((element) => {
-        accumulator += Number(element.stars);
-      });
-      let avgReviewRating = Math.floor(accumulator / oneSpotReviews.length);
+    const formattedSpots = [];
 
+    for (const spot of allSpots) {
+      const totalStars = spot.Reviews.reduce(
+        (sum, review) => sum + review.stars,
+        0
+      );
+      let numReviews = spot.Reviews.length;
+      const avgReviewRating =
+        spot.Reviews.length > 0 ? totalStars / spot.Reviews.length : null;
       const previewImage =
         spot.SpotImages.find((image) => image.preview)?.url || null;
-
-      return {
+        const oneSpotReviews = await Review.findAll({
+          where: {
+            spotId: spot.id,
+          },
+          include: [
+            { model: User, attributes: ["id", "firstName", "lastName"] },
+            { model: ReviewImage },
+          ],
+        });
+    console.log(spot)
+      formattedSpots.push({
+        // id: spot.id,
+        // ownerId: spot.ownerId,
+        // address: spot.address,
+        // city: spot.city,
+        // state: spot.state,
+        // country: spot.country,
+        // lat: spot.lat,
+        // lng: spot.lng,
+        // name: spot.name,
+        // description: spot.description,
+        // price: spot.price,
+        // createdAt: spot.createdAt,
+        // updatedAt: spot.updatedAt,
+        // avgReviewRating,
+        // reviews: spot.Reviews
         id: spot.id,
         ownerId: spot.ownerId,
         address: spot.address,
@@ -119,11 +210,14 @@ router.get("/", async (req, res, next) => {
         price: spot.price,
         createdAt: spot.createdAt,
         updatedAt: spot.updatedAt,
-        avgReviewRating,
-        previewImage,
-        reviews: oneSpotReviews
-      };
-    });
+        avgStarRating: avgReviewRating,
+        SpotImages: spot.SpotImages,
+        Owner: spot.Owner,
+        reviews: oneSpotReviews,
+        numReviews,
+        previewImage
+      })
+    }
 
     res.json({ Spots: formattedSpots });
   } catch (e) {
