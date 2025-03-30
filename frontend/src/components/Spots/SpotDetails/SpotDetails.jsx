@@ -31,13 +31,13 @@ const SpotDetails = () => {
                         <h3>{spotDetails.city}, {spotDetails.state}, {spotDetails.country}</h3>
                         <div id='all-images-container'>
                             <div id='first-image-container'>
-                                <img src={spotDetails.previewImage ? spotDetails.previewImage.url : ''} id='first-image' />
+                                <img src={spotDetails.SpotImages ? spotDetails.SpotImages.find(image => image.preview).url : ''} id='first-image' />
                             </div>
                             <div>
                                 <div id='images-container'>
-                                    {spotDetails.SpotImages ? spotDetails.SpotImages.map((image, i) => (
+                                    {spotDetails.SpotImages ? spotDetails.SpotImages.filter(image => !image.preview).map((image, i) => (
                                         <div key={`${i}-${image.id}`}>
-                                            {i !== 0 && <img src={image.url} className='images' />}
+                                            <img src={image.url} className='images' />
                                         </div>
                                     )) : ''}
                                 </div>
