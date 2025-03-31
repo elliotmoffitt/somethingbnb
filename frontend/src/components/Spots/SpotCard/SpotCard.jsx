@@ -1,11 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import './SpotCard.css'
-import { useDispatch } from 'react-redux';
-import { getSpotDetailsThunk } from '../../../store/spotsReducer';
 import { FaStar } from 'react-icons/fa';
 
 const SpotCard = ({ spot }) => {
-    const dispatch = useDispatch();
     return (
         <NavLink to={`/spots/${spot.id}`}>
             {/* <button id='spot' onClick={() => dispatch(fetchSpotDetails(spot.id))}> */}

@@ -20,7 +20,7 @@ const SpotDetails = () => {
             setIsLoaded(true);
         }
 
-    }, [dispatch, isLoaded, params.spotId]);
+    }, [dispatch, isLoaded, params.spotId, spotDetails]);
 
     if (isLoaded) {
         return (

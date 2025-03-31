@@ -28,7 +28,7 @@ const UpdateSpotForm = () => {
 
     useEffect(() => {
         setForm({ ...spotDetails })
-    }, [setForm])
+    }, [setForm, spotDetails])
     // const [empty, setEmpty] = useState({
     //     'country': '',
     //     'address': '',
