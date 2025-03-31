@@ -1,23 +1,20 @@
-/* html {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-} */
-
-form {
+#create-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     text-align: center;
 }
 
-input {
-    height: 30px;
+.create-input {
+    height: 40px;
     width: 75%;
+    border-radius: 10px;
+    background-color: #ededed;
+    border: 1px solid #bbbbbb
 }
 
 #inner-form {
-    width: 75%;
+    width: 80%;
 }
 
 #form-bottom {
