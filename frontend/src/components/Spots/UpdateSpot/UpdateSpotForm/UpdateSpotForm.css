@@ -1,0 +1,56 @@
+#update-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.update-input {
+    height: 40px;
+    width: 75%;
+    border-radius: 10px;
+    background-color: #ededed;
+    border: 1px solid #bbbbbb
+}
+
+#inner-form {
+    width: 80%;
+}
+
+#form-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#description {
+    height: 50px;
+    width: 75%
+}
+
+.required-text {
+    color: red
+}
+
+#submit-button {
+    border: 0;
+    color: white;
+    font-size: 15px;
+    border-radius: 100px;
+    background-color: #FE3A5C;
+    margin-top: 8px;
+    height: 40px;
+    width: 300px;
+    cursor: pointer;
+}
+
+#submit-disabled {
+    border: 0;
+    color: white;
+    font-size: 15px;
+    border-radius: 100px;
+    background-color: #ff95a9;
+    margin-top: 8px;
+    height: 40px;
+    width: 300px;
+}
