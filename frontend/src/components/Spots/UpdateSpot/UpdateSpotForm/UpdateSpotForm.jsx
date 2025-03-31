@@ -13,7 +13,7 @@ const UpdateSpotForm = () => {
 
     // const [submitted, setSubmitted] = useState(false);
     const [isLoaded, setIsLoaded] = useState(false);
-
+    console.log(params.spotId)
     const [form, setForm] = useState({
         'country': '',
         'address': '',
@@ -25,6 +25,10 @@ const UpdateSpotForm = () => {
         'lat': 1,
         'lng': 2,
     });
+
+    useEffect(() => {
+        setForm({ ...spotDetails })
+    }, [setForm])
     // const [empty, setEmpty] = useState({
     //     'country': '',
     //     'address': '',
@@ -47,7 +51,7 @@ const UpdateSpotForm = () => {
 
     // const [submitted, setSubmitted] = useState(false);
 
-    const spotImages = [];
+    // const spotImages = [];
 
     const handleInputChange = (e, fieldName) => {
         setForm((prev) => {
@@ -71,18 +75,14 @@ const UpdateSpotForm = () => {
     const submitSpot = async (e) => {
         e.preventDefault();
         // setSubmitted(true);
-        dispatch(updateSpot({ spotImages, ...form }))
-        navigate(`/spots/${spotDetails.id}`)
+        await dispatch(updateSpot(params.spotId, form)).then(navigate(`/spots/${params.spotId}`))
 
     }
     useEffect(() => {
-        const getSpotDetails = async () => {
-            await dispatch(getSpotDetailsThunk(params.spotId))
-            setIsLoaded(true)
-            setForm({...spotDetails})
-        }
-        if (!isLoaded) {
-            getSpotDetails();
+        if (!spotDetails) {
+            dispatch(getSpotDetailsThunk(params.spotId)).then(() => setIsLoaded(true));
+        } else {
+            setIsLoaded(true);
         }
 
     }, [dispatch, params.spotId, isLoaded, spotDetails]);

@@ -145,11 +145,10 @@ export const createSpotThunk = (spot) => async (dispatch) => {
   }
 };
 
-export const updateSpot = (spot) => async (dispatch) => {
+export const updateSpot = (spotId, spot) => async (dispatch) => {
   try {
-
+    console.log(spot, 'LOOK HERE')
     const {
-      spotImages,
       address,
       city,
       country,
@@ -159,9 +158,8 @@ export const updateSpot = (spot) => async (dispatch) => {
       state,
       lat,
       lng,
-      id,
     } = spot;
-    const res = await csrfFetch(`/api/spots/${id}`, {
+    const res = await csrfFetch(`/api/spots/${spotId}`, {
       method: "PUT",
       body: JSON.stringify({
         address,
@@ -177,11 +175,9 @@ export const updateSpot = (spot) => async (dispatch) => {
     });
     if (res.ok) {
       const data = await res.json();
-      dispatch(updateSpot(data.spot));
-      for (let spotImage of spotImages) {
-        await dispatch(addImage(spotImage, data.id));
-      }
-      return res;
+      console.log(data, 'DATA IS HERE')
+      await dispatch(updateSpotAction(data));
+      return data;
     } else {
       throw res;
     }
