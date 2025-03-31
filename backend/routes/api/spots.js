@@ -78,21 +78,33 @@ router.get("/", async (req, res, next) => {
     // }
 
     const allSpots = await Spot.findAll({
-      include: [{ model: Review }, { model: SpotImage }],
+      include: [{ model: Review }, { model: SpotImage }, { model: User, as: 'Owner', attributes: ["id", "firstName", "lastName"] }],
       limit: size,
       offset: size * (page - 1),
     });
-    const formattedSpots = allSpots.map((spot) => {
+    const formattedSpots = [];
+
+    for (const spot of allSpots) {
       const totalStars = spot.Reviews.reduce(
         (sum, review) => sum + review.stars,
         0
       );
-      const avgRating =
+      let numReviews = spot.Reviews.length;
+      const avgReviewRating =
         spot.Reviews.length > 0 ? totalStars / spot.Reviews.length : null;
       const previewImage =
         spot.SpotImages.find((image) => image.preview)?.url || null;
-
-      return {
+        const oneSpotReviews = await Review.findAll({
+          where: {
+            spotId: spot.id,
+          },
+          include: [
+            { model: User, attributes: ["id", "firstName", "lastName"] },
+            { model: ReviewImage },
+          ],
+        });
+    console.log(spot)
+      formattedSpots.push({
         id: spot.id,
         ownerId: spot.ownerId,
         address: spot.address,
@@ -106,10 +118,14 @@ router.get("/", async (req, res, next) => {
         price: spot.price,
         createdAt: spot.createdAt,
         updatedAt: spot.updatedAt,
-        avgRating,
-        previewImage,
-      };
-    });
+        avgStarRating: avgReviewRating,
+        SpotImages: spot.SpotImages,
+        Owner: spot.Owner,
+        reviews: oneSpotReviews,
+        numReviews,
+        previewImage
+      })
+    }
 
     res.json({ Spots: formattedSpots });
   } catch (e) {
@@ -129,7 +145,82 @@ router.get("/current", requireAuth, async (req, res, next) => {
         ownerId: req.user.id,
       },
     });
-    res.json(oneSpot);
+    // res.json(oneSpot);
+    let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } =
+      req.query;
+
+    page = parseInt(page);
+    size = parseInt(size);
+
+    if (Number.isNaN(page) || !page) page = 1;
+    if (Number.isNaN(size) || !size) size = 20;
+
+    // if (page < 1 || page > 10) {
+    //   return res
+    //     .status(404)
+    //     .json({ message: "Page must be greater than or equal to 1" });
+    // }
+
+    // if (size < 1 || size > 10) {
+    //   return res
+    //     .status(404)
+    //     .json({ message: "Size must be greater than or equal to 1" });
+    // }
+
+    const allSpots = await Spot.findAll({
+      include: [{ model: Review }, { model: SpotImage }, { model: User, as: 'Owner', attributes: ["id", "firstName", "lastName"] }, ],
+       where: {
+        ownerId: req.user.id,
+      },
+      limit: size,
+      offset: size * (page - 1),
+    });
+    const formattedSpots = [];
+
+    for (const spot of allSpots) {
+      const totalStars = spot.Reviews.reduce(
+        (sum, review) => sum + review.stars,
+        0
+      );
+      let numReviews = spot.Reviews.length;
+      const avgReviewRating =
+        spot.Reviews.length > 0 ? totalStars / spot.Reviews.length : null;
+      const previewImage =
+        spot.SpotImages.find((image) => image.preview)?.url || null;
+        const oneSpotReviews = await Review.findAll({
+          where: {
+            spotId: spot.id,
+          },
+          include: [
+            { model: User, attributes: ["id", "firstName", "lastName"] },
+            { model: ReviewImage },
+          ],
+        });
+    console.log(spot)
+      formattedSpots.push({
+        id: spot.id,
+        ownerId: spot.ownerId,
+        address: spot.address,
+        city: spot.city,
+        state: spot.state,
+        country: spot.country,
+        lat: spot.lat,
+        lng: spot.lng,
+        name: spot.name,
+        description: spot.description,
+        price: spot.price,
+        createdAt: spot.createdAt,
+        updatedAt: spot.updatedAt,
+        avgStarRating: avgReviewRating,
+        SpotImages: spot.SpotImages,
+        Owner: spot.Owner,
+        reviews: oneSpotReviews,
+        numReviews,
+        previewImage
+      })
+    }
+
+    res.json({ Spots: formattedSpots });
   } catch (e) {
     next(e);
   }
@@ -299,6 +390,7 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
 
     const ownerId = req.user.id;
 
+
     const spot = await Spot.create({
       ownerId,
       address,
@@ -312,20 +404,65 @@ router.post("/", requireAuth, validateSpot, async (req, res, next) => {
       price,
     });
 
+    let accumulator = 0;
+      const oneSpotReviews = await Review.findAll({
+        where: {
+          spotId: spot.id,
+        },
+        include: [
+          { model: User, attributes: ["id", "firstName", "lastName"] },
+          { model: ReviewImage },
+        ],
+      });
+      oneSpotReviews.forEach((element) => {
+        accumulator += Number(element.stars);
+      });
+      let avgReviewRating = Math.floor(accumulator / oneSpotReviews.length);
+
+      const oneSpot = await Spot.findOne({
+        where: {
+          id: spot.id,
+        },
+        include: [
+          {
+            model: SpotImage,
+          },
+          {
+            model: User,
+            as: "Owner",
+            attributes: ["id", "firstName", "lastName"],
+          },
+        ],
+      });
+
+      if (!oneSpot) {
+        return res.status(404).json({ message: "Spot couldn't be found" });
+      }
+
+      let numReviews = oneSpotReviews.length;
+      let spotData = oneSpot.toJSON();
+      spotData.numReviews = numReviews;
+      spotData.avgStarRating = avgReviewRating;
+
     return res.status(201).json({
-      id: spot.id,
-      ownerId: ownerId,
-      address: address,
-      city: city,
-      state: state,
-      country: country,
-      lat: lat,
-      lng: lng,
-      name: name,
-      description: description,
-      price: price,
-      createdAt: spot.createdAt,
-      updatedAt: spot.updatedAt,
+      id: spotData.id,
+      ownerId: spotData.ownerId,
+      address: spotData.address,
+      city: spotData.city,
+      state: spotData.state,
+      country: spotData.country,
+      lat: spotData.lat,
+      lng: spotData.lng,
+      name: spotData.name,
+      description: spotData.description,
+      price: spotData.price,
+      createdAt: spotData.createdAt,
+      updatedAt: spotData.updatedAt,
+      numReviews: numReviews,
+      avgStarRating: avgReviewRating,
+      SpotImages: spotData.SpotImages,
+      Owner: spotData.Owner,
+      reviews: oneSpotReviews
     });
   } catch (e) {
     next(e);
@@ -367,13 +504,71 @@ router.post(
   }
 );
 
-router.put(
-  "/:spotId",
-  requireAuth,
-  validateSpot,
-  validateSpotId,
-  async (req, res, next) => {
-    const { spotId } = req.params;
+// router.put(
+//   "/:spotId",
+//   requireAuth,
+//   validateSpot,
+//   validateSpotId,
+//   async (req, res, next) => {
+//     const { spotId } = req.params;
+//     const {
+//       address,
+//       city,
+//       state,
+//       country,
+//       lat,
+//       lng,
+//       name,
+//       description,
+//       price,
+//     } = req.body;
+
+//     const spot = await Spot.findByPk(spotId);
+//     if (!spot) {
+//       return res.status(404).json({ message: "Spot couldn't be found" });
+//     }
+
+//     if (spot.ownerId !== req.user.id) {
+//       return res.status(403).json({ message: "Forbidden" });
+//     }
+
+//     try {
+//       await spot.update({
+//         address,
+//         city,
+//         state,
+//         country,
+//         lat,
+//         lng,
+//         name,
+//         description,
+//         price,
+//       });
+
+//       return res.status(200).json({
+//         id: spot.id,
+//         ownerId: spot.ownerId,
+//         address: spot.address,
+//         city: spot.city,
+//         state: spot.state,
+//         country: spot.country,
+//         lat: spot.lat,
+//         lng: spot.lng,
+//         name: spot.name,
+//         description: spot.description,
+//         price: spot.price,
+//         createdAt: spot.createdAt,
+//         updatedAt: spot.updatedAt,
+//       });
+//     } catch (e) {
+//       next(e);
+//     }
+//   }
+// );
+
+router.put("/:spotId", requireAuth, validateSpot, validateSpotId, async (req, res, next) => {
+  try {
+    router.use(requireAuth);
     const {
       address,
       city,
@@ -386,7 +581,9 @@ router.put(
       price,
     } = req.body;
 
-    const spot = await Spot.findByPk(spotId);
+    const ownerId = req.user.id;
+
+    const spot = await Spot.findByPk(req.params.spotId);
     if (!spot) {
       return res.status(404).json({ message: "Spot couldn't be found" });
     }
@@ -394,40 +591,83 @@ router.put(
     if (spot.ownerId !== req.user.id) {
       return res.status(403).json({ message: "Forbidden" });
     }
+    spot.update({
+      ownerId,
+      address,
+      city,
+      state,
+      country,
+      lat,
+      lng,
+      name,
+      description,
+      price,
+    });
 
-    try {
-      await spot.update({
-        address,
-        city,
-        state,
-        country,
-        lat,
-        lng,
-        name,
-        description,
-        price,
+    let accumulator = 0;
+      const oneSpotReviews = await Review.findAll({
+        where: {
+          spotId: spot.id,
+        },
+        include: [
+          { model: User, attributes: ["id", "firstName", "lastName"] },
+          { model: ReviewImage },
+        ],
+      });
+      oneSpotReviews.forEach((element) => {
+        accumulator += Number(element.stars);
+      });
+      let avgReviewRating = Math.floor(accumulator / oneSpotReviews.length);
+
+      const oneSpot = await Spot.findOne({
+        where: {
+          id: spot.id,
+        },
+        include: [
+          {
+            model: SpotImage,
+          },
+          {
+            model: User,
+            as: "Owner",
+            attributes: ["id", "firstName", "lastName"],
+          },
+        ],
       });
 
-      return res.status(200).json({
-        id: spot.id,
-        ownerId: spot.ownerId,
-        address: spot.address,
-        city: spot.city,
-        state: spot.state,
-        country: spot.country,
-        lat: spot.lat,
-        lng: spot.lng,
-        name: spot.name,
-        description: spot.description,
-        price: spot.price,
-        createdAt: spot.createdAt,
-        updatedAt: spot.updatedAt,
-      });
-    } catch (e) {
-      next(e);
-    }
+      if (!oneSpot) {
+        return res.status(404).json({ message: "Spot couldn't be found" });
+      }
+
+      let numReviews = oneSpotReviews.length;
+      let spotData = oneSpot.toJSON();
+      spotData.numReviews = numReviews;
+      spotData.avgStarRating = avgReviewRating;
+
+    return res.status(201).json({
+      id: spotData.id,
+      ownerId: spotData.ownerId,
+      address: spotData.address,
+      city: spotData.city,
+      state: spotData.state,
+      country: spotData.country,
+      lat: spotData.lat,
+      lng: spotData.lng,
+      name: spotData.name,
+      description: spotData.description,
+      price: spotData.price,
+      createdAt: spotData.createdAt,
+      updatedAt: spotData.updatedAt,
+      numReviews: numReviews,
+      avgStarRating: avgReviewRating,
+      SpotImages: spotData.SpotImages,
+      Owner: spotData.Owner,
+      reviews: oneSpotReviews
+    });
+  } catch (e) {
+    next(e);
   }
-);
+});
 
 router.delete(
   "/:spotId",

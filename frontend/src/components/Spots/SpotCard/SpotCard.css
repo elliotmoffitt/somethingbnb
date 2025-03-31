@@ -1,0 +1,27 @@
+#spot {
+    cursor: pointer;
+}
+
+#spot-img {
+    min-height: 12rem;
+    min-width: 12rem;
+    cursor: pointer;
+    border-radius: 20px;
+
+}
+
+#spot-info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+#spot-price {
+    font-weight: bold;
+}

@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  // const spots = useSelector(state => state.spots.allSpots);
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
