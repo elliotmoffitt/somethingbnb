@@ -157,15 +157,6 @@ const UpdateSpotForm = () => {
                     </div>
 
                     <div id="form-bottom">
-                        {/* <h3>Liven up your spot with photos</h3>
-                        <p>Submit a link to at least one photo to publish your spot.</p>
-                        {console.log(spotDetails, 'UPDATESPOTDETAILS HERE YEAHHAHAHAHAHAH')}
-                        <input placeholder="Preview Image URL" onChange={(e) => handleImageUrl(e, true)}  defaultValue={spotDetails.SpotImages && spotDetails.SpotImages[0] ? spotDetails.SpotImages[0].url : ''} />
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} defaultValue={spotDetails.SpotImages && spotDetails.SpotImages[1] ? spotDetails.SpotImages[1].url : ''} />
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} defaultValue={spotDetails.SpotImages && spotDetails.SpotImages[2] ? spotDetails.SpotImages[2].url : ''} />
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} defaultValue={spotDetails.SpotImages && spotDetails.SpotImages[3] ? spotDetails.SpotImages[3].url : ''} />
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} defaultValue={spotDetails.SpotImages && spotDetails.SpotImages[4] ? spotDetails.SpotImages[4].url : ''} />
-                        <input placeholder="Image URL" onChange={(e) => handleImageUrl(e, false)} defaultValue={spotDetails.SpotImages && spotDetails.SpotImages[5] ? spotDetails.SpotImages[5].url : ''} /> */}
                         <button onClick={(e) => submitSpot(e)}>Update Spot</button>
                     </div>
 
