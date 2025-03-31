@@ -40,14 +40,21 @@ const CreateSpotForm = () => {
 
     const submitSpot = async (e) => {
         e.preventDefault();
-        spotImages.push({ 'url': previewImage, 'preview': true })
+        previewImage.length ? spotImages.push({ 'url': previewImage, 'preview': true }) : null
         secondImage.length ? spotImages.push({ 'url': secondImage, 'preview': false }) : null
         thirdImage.length ? spotImages.push({ 'url': thirdImage, 'preview': false }) : null
         fourthImage.length ? spotImages.push({ 'url': fourthImage, 'preview': false }) : null
         fifthImage.length ? spotImages.push({ 'url': fifthImage, 'preview': false }) : null
         setSubmitted(true);
-        let newSpot = await dispatch(createSpotThunk({ spotImages, ...form }))
-        navigate(`/spots/${newSpot.id}`)
+        if (
+            (previewImage && (previewImage.slice(-4) === '.jpg')
+            || (previewImage.slice(-5) === '.jpeg')
+            || (previewImage.slice(-4) === '.png'))
+
+        ) {
+            let newSpot = await dispatch(createSpotThunk({ spotImages, ...form }))
+            navigate(`/spots/${newSpot.id}`)
+        }
     }
     useEffect(() => {
         setIsLoaded(true);
